@@ -13,7 +13,6 @@ See copyright notice at the end of this file.
 --------------------------------------------------------------------------------
 """
 
-
 def labyFromFile(fn) :
     """
     Lecture d'un labyrinthe dans le fichier de nom fn

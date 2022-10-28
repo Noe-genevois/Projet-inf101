@@ -1,6 +1,5 @@
 import lireLaby
 
-
 fn = input("Nom d'un fichier: ")
 laby, entree, sortie = lireLaby.labyFromFile(fn) #Chargement du fichier labyrinthe
 print("\n")

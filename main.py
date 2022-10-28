@@ -35,5 +35,3 @@ def afficheTextuel(dicoJeu:dict):
                 else: # la case est un passage quelconque
                     print(' ',end='')
         print() #On change de ligne à afficher
-
-afficheTextuel(dicoJeu)

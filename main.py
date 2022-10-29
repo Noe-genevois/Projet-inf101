@@ -16,7 +16,7 @@ print("Sortie:",sortie)
 dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie}
 
 #Fonctions pour l'affichage du labyrinthe
-def afficheTextuel(dicoJeu:dict): #/!\ focntion pas finie, il manque des murs sur les bords /!\
+def afficheTextuel(dicoJeu:dict): #/!\ fonction pas finie, il manque des murs sur les bords /!\
     """Affichage textuel du labyrinthe dans dicoJeu, '#'=mur 'x'=entrée 'o'=sortie ' '=passage"""
     laby_liste = dicoJeu["laby"]
     hauteur = len(laby_liste)

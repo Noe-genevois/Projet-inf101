@@ -35,3 +35,4 @@ def afficheTextuel(dicoJeu:dict): #/!\ fonction pas finie, il manque des murs su
                 else: # la case est un passage quelconque
                     print(' ',end='')
         print() #On change de ligne à afficher
+print(afficheTextuel(dicoJeu))

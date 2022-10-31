@@ -56,13 +56,6 @@ def carre(cote:int,couleur:str="black"):
     turtle.penup()
     turtle.end_fill()
 
-def turtle_flash():
-    """Paramètre la turtle pour qu'elle dessine rapidement"""
-    #I am speed*
-    global turtle
-    turtle.delay(0)
-    turtle.speed(0)
-
 def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-400,400),epaisseur_cellule:int=40):
     """Affichage graphique avec turtle du labyrinthe, case blanche=passage, noire=mur, verte=entrée, rouge=sortie
     l'origine correspond au coin supérieur gauche"""
@@ -117,7 +110,7 @@ def cell2pixel(i:int,j:int,dicoJeu:dict):
     x = x_origine+(i+0.5)*dicoJeu["epaisseur_cellule"]
     y = y_origine-(j+0.5)*dicoJeu["epaisseur_cellule"]
     return (x,y)
-
+#--------------------- Cases spéciales ---------------------
 def typeCellule(i:int,j:int,dicoJeu:dict):
     """Donne le type de la cellule (entrée,sortie,mur,passage,impasse,carrefour) pour la cellule aux coordonnées i,j"""
     if dicoJeu["entrée"] == [j,i]:
@@ -144,7 +137,7 @@ def typeCellule(i:int,j:int,dicoJeu:dict):
         return "carrefour" #si on a ni une impasse ni un passage alors c'est un carrefour
                 
 
-
+#--------------------- Tests ---------------------
 def testClic(x:double,y:double,dicoJeu:dict):
     cell = pixel2cell(x,y,dicoJeu)
     if cell != None:
@@ -153,6 +146,13 @@ def testClic(x:double,y:double,dicoJeu:dict):
         print("Type:",typeCellule(i,j,dicoJeu))#amélioration pour tester typeCellule
     else:
         print("Erreur, clique en dehors du labyrinthe")
+
+def turtle_flash():
+    """Paramètre la turtle pour qu'elle dessine rapidement"""
+    #I am speed*
+    global turtle
+    turtle.delay(0)
+    turtle.speed(0)
 
 afficheTextuel(dicoJeu)
 turtle_flash()

@@ -16,7 +16,7 @@ print("Sortie:",sortie)
 #Stockage de toutes les informations du fichier dans un dictionnaire
 dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie}
 
-#Fonctions pour l'affichage du labyrinthe
+#--------------------- Affichage du labyrinthe ---------------------
 def afficheTextuel(dicoJeu:dict):
     """Affichage textuel du labyrinthe dans dicoJeu, '#'=mur 'x'=entrée 'o'=sortie ' '=passage"""
     laby_liste = dicoJeu["laby"]
@@ -60,7 +60,7 @@ def turtle_flash(t:turtle):
     turtle.delay(0)
     t.speed(0)
 
-def afficheGraphique(dicoJeu:dict,t:turtle,origine:tuple[float,float]=(-400,400),epaisseur:int=40):
+def afficheGraphique(dicoJeu:dict,t:turtle,origine:tuple[float,float]=(-400,400),epaisseur_cellule:int=40):
     """Affichage graphique avec turtle du labyrinthe, case blanche=passage, noire=mur, verte=entrée, rouge=sortie
     l'origine correspond au coin supérieur gauche"""
     laby_liste = dicoJeu["laby"]
@@ -74,16 +74,21 @@ def afficheGraphique(dicoJeu:dict,t:turtle,origine:tuple[float,float]=(-400,400)
     for y in range(hauteur):
         for x in range(largeur):
             if laby_liste[y][x] == 1:#si la cellule est un mur
-                carre(t,epaisseur)
+                carre(t,epaisseur_cellule)
             elif [y,x] == dicoJeu["entrée"]:#entrée
-                carre(t,epaisseur,"green")
+                carre(t,epaisseur_cellule,"green")
             elif [y,x] == dicoJeu["sortie"]:#sortie
-                carre(t,epaisseur,"red")
+                carre(t,epaisseur_cellule,"red")
             #si on a juste un passage on effectue seulement le décalage
-            t.forward(epaisseur)#Décalage pour passer à la cellule suivante de la ligne
+            t.forward(epaisseur_cellule)#Décalage pour passer à la cellule suivante de la ligne
         #Passage à la ligne du dessous
-        origine = (origine[0],origine[1]-epaisseur)
+        origine = (origine[0],origine[1]-epaisseur_cellule)
         t.goto(origine)
+
+#--------------------- Positionnement de la tortue ---------------------
+def pixel2cell(position:tuple[float,float], origine:tuple[float,float]=(-400,400),epaisseur_cellule:int=40):
+    x,y = position
+    x-origine[0]
 
 
 t = turtle.Turtle()

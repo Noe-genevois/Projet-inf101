@@ -38,60 +38,82 @@ def afficheTextuel(dicoJeu:dict):
         print() #On change de ligne à afficher
 
 
-def carre(t:turtle,cote:int,couleur:str="black"):
+def carre(cote:int,couleur:str="black"):
     """Dessine un carré plein"""
+    global turtle
     #Paramètres pour la couleur
-    t.fillcolor(couleur)
-    t.color(couleur)
+    turtle.fillcolor(couleur)
+    turtle.color(couleur)
     #On commence à dessiner
-    t.pendown()
-    t.begin_fill()
+    turtle.pendown()
+    turtle.begin_fill()
     #Dessin de chaque côté du carré
     for i in range(4):
-        t.forward(cote)
-        t.right(90)
+        turtle.forward(cote)
+        turtle.right(90)
     #Fin du dessin
-    t.penup()
-    t.end_fill()
+    turtle.penup()
+    turtle.end_fill()
 
-def turtle_flash(t:turtle):
+def turtle_flash():
     """Paramètre la turtle pour qu'elle dessine rapidement"""
-    #I am speed
+    #I am speed*
+    global turtle
     turtle.delay(0)
-    t.speed(0)
+    turtle.speed(0)
 
-def afficheGraphique(dicoJeu:dict,t:turtle,origine:tuple[float,float]=(-400,400),epaisseur_cellule:int=40):
+def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-400,400),epaisseur_cellule:int=40):
     """Affichage graphique avec turtle du labyrinthe, case blanche=passage, noire=mur, verte=entrée, rouge=sortie
     l'origine correspond au coin supérieur gauche"""
+    global turtle
     laby_liste = dicoJeu["laby"]
     hauteur = len(laby_liste)
     largeur = len(laby_liste[0])
+
     #Paramètres de départ pour la turtle
-    t.penup()
-    t.goto(origine)
-    t.setheading(0)#dirigé vers la droite
-    #itération de chaque cellule du labyrinthe
+    turtle.penup()
+    turtle.goto(origine)
+    turtle.setheading(0)#dirigé vers la droite
+    
+    #itération de chaque cellule du labyrinthe afin de les dessiner
     for y in range(hauteur):
         for x in range(largeur):
             if laby_liste[y][x] == 1:#si la cellule est un mur
-                carre(t,epaisseur_cellule)
+                carre(epaisseur_cellule)
             elif [y,x] == dicoJeu["entrée"]:#entrée
-                carre(t,epaisseur_cellule,"green")
+                carre(epaisseur_cellule,"green")
             elif [y,x] == dicoJeu["sortie"]:#sortie
-                carre(t,epaisseur_cellule,"red")
+                carre(epaisseur_cellule,"red")
             #si on a juste un passage on effectue seulement le décalage
-            t.forward(epaisseur_cellule)#Décalage pour passer à la cellule suivante de la ligne
+            turtle.forward(epaisseur_cellule)#Décalage pour passer à la cellule suivante de la ligne
         #Passage à la ligne du dessous
-        origine = (origine[0],origine[1]-epaisseur_cellule)
-        t.goto(origine)
+        turtle.goto((origine[0],origine[1]-y*epaisseur_cellule))
+    #Fin du dessin
+    #On stock des informations utiles pour d'autres fonctions dépendantes de l'affichage graphique
+    dicoJeu["origine_graph"] = origine
+    dicoJeu["epaisseur_cellule"] = epaisseur_cellule
+    dicoJeu["hauteur_graph"] = hauteur*epaisseur_cellule
+    dicoJeu["largeur_graph"] = largeur*epaisseur_cellule
 
 #--------------------- Positionnement de la tortue ---------------------
-def pixel2cell(position:tuple[float,float], origine:tuple[float,float]=(-400,400),epaisseur_cellule:int=40):
-    x,y = position
-    x-origine[0]
+def pixel2cell(coord:tuple[float,float], dicoJeu:dict):
+    """Conversion de coordonnées turtle en coordonnées dans le labyrinthe, return None si on est en dehors du labyrinthe"""
+    #Vérification que les variables nécessaires existent bien dans dicoJeu (si afficheGraphique a bien été exécuté en amont)
+    x,y = coord
+    print("x,y:",coord)
+    #Limites pour être dans une cellule du labyrinthe (Attention au repère)
+    x_origine,y_origine = dicoJeu["origine_graph"]
+    x_max = x_origine+dicoJeu["largeur_graph"]
+    y_min = y_origine-dicoJeu["hauteur_graph"]
+
+    if x_origine<=x<=x_max and y_min<=y<=y_origine:#Si les coordonnées sont dans le labyrinthe
+        x_cellule = abs(x-x_origine)//dicoJeu["epaisseur_cellule"]
+        y_cellule = abs(y-y_origine)//dicoJeu["epaisseur_cellule"]
+        return(x_cellule,y_cellule)
 
 
-t = turtle.Turtle()
-turtle_flash(t)
-afficheGraphique(dicoJeu,t)
-turtle.done()#garde la fenêtre ouverte
+
+turtle_flash()
+afficheGraphique(dicoJeu)
+
+turtle.done()#garde la fenêtre ouvert

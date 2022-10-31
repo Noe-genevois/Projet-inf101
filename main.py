@@ -40,13 +40,17 @@ def afficheTextuel(dicoJeu:dict):
 
 def carre(t:turtle,cote:int,couleur:str="black"):
     """Dessine un carré plein"""
+    #Paramètres pour la couleur
     t.fillcolor(couleur)
     t.color(couleur)
+    #On commence à dessiner
     t.pendown()
     t.begin_fill()
+    #Dessin de chaque côté du carré
     for i in range(4):
         t.forward(cote)
         t.right(90)
+    #Fin du dessin
     t.penup()
     t.end_fill()
 
@@ -65,7 +69,7 @@ def afficheGraphique(dicoJeu:dict,t:turtle,origine:tuple[float,float]=(-400,400)
     #Paramètres de départ pour la turtle
     t.penup()
     t.goto(origine)
-    t.setheading(0)
+    t.setheading(0)#dirigé vers la droite
     #itération de chaque cellule du labyrinthe
     for y in range(hauteur):
         for x in range(largeur):
@@ -75,8 +79,9 @@ def afficheGraphique(dicoJeu:dict,t:turtle,origine:tuple[float,float]=(-400,400)
                 carre(t,epaisseur,"green")
             elif [y,x] == dicoJeu["sortie"]:#sortie
                 carre(t,epaisseur,"red")
-            t.forward(epaisseur)#Décalage pour passer à la cellule suivante
-        #Changement de ligne
+            #si on a juste un passage on effectue seulement le décalage
+            t.forward(epaisseur)#Décalage pour passer à la cellule suivante de la ligne
+        #Passage à la ligne du dessous
         origine = (origine[0],origine[1]-epaisseur)
         t.goto(origine)
 

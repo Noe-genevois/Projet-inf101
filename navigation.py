@@ -1,55 +1,77 @@
-#!/bin/env python3
-# -*- coding: utf-8 -*-
+from position import pixel2cell
 
-"""
---------------------------------------------------------------------------------
-navigation.py : déplacement de la tortue / turtle motions
+def erreur_mouvement(dicoJeu:dict):
+    """Affiche une erreur pour un mouvement impossible, à appeler dans les fonctions de navigation"""
+    turtle = dicoJeu["turtle"]
+    turtle.color("red")
+    print("Erreur, mouvement impossible")
 
-SPDX-FileCopyrightText: 2022 UGA            <carole.adam@univ-grenoble-alpes.fr>
-SPDX-License-Identifier: CC-BY-NC-SA-4.0
+def avancer(dicoJeu:dict):
+    """Avance la turtle de une cellule"""
+    turtle = dicoJeu["turtle"]
+    turtle.forward(dicoJeu["epaisseur_cellule"])
 
-Voir l'avis de copyright à la fin de ce fichier.
-See copyright notice at the end of this file.
---------------------------------------------------------------------------------
-"""
+def test_victoire(i:int,j:int,dicoJeu:dict):
+    """Test si la turtle est sur la sortie et affiche la victoire si nécessaire"""
+    turtle = dicoJeu["turtle"]
+    if [j,i] == dicoJeu["sortie"]:
+        print("Victoire, la sortie a été trouvée")
+        turtle.color("green")
 
-# ----- CODE DE navigation.py -----
+def gauche(dicoJeu:dict):
+    turtle = dicoJeu["turtle"]
+    turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
+    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    if 0<=i-1:#Si la cellule à gauche est dans le labyrinthe
+        if dicoJeu["laby"][j][i-1] != 1:#Si la cellule à gauche n'est pas un mur
+            turtle.setheading(180)
+            avancer(dicoJeu)
+            print("gauche ; left")
+            test_victoire(i-1,j,dicoJeu)
+            return
+    #Si on a pas pu effectuer le mouvement
+    erreur_mouvement(dicoJeu)
 
-import turtle
+def droite(dicoJeu:dict):
+    turtle = dicoJeu["turtle"]
+    turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
+    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    if i+1<dicoJeu["largeur"]:#Si la cellule à droite est dans le labyrinthe
+        if dicoJeu["laby"][j][i+1] != 1:#Si la cellule à droite n'est pas un mur
+            turtle.setheading(0)
+            avancer(dicoJeu)
+            print("droite ; right")
+            test_victoire(i+1,j,dicoJeu)
+            return
+    #Si on a pas pu effectuer le mouvement
+    erreur_mouvement(dicoJeu)
 
 
-def gauche():
-    turtle.setheading(180)
-    turtle.forward(100)
-    print("gauche ; left")
+def bas(dicoJeu:dict):
+    turtle = dicoJeu["turtle"]
+    turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
+    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    if j+1<dicoJeu["hauteur"]:#Si la cellule en dessous est dans le labyrinthe
+        if dicoJeu["laby"][j+1][i] != 1:#Si la cellule en dessous n'est pas un mur
+            turtle.setheading(270)
+            avancer(dicoJeu)
+            print("bas ; down")
+            test_victoire(i,j+1,dicoJeu)
+            return
+    #Si on a pas pu effectuer le mouvement
+    erreur_mouvement(dicoJeu)
 
 
-def droite():
-    turtle.setheading(0)
-    turtle.forward(100)
-    print("droite ; right")
-
-
-def bas():
-    turtle.setheading(270)
-    turtle.forward(100)
-    print("bas ; down")
-
-
-def haut():
-    turtle.setheading(90)
-    turtle.forward(100)
-    print("haut ; up")
-
-
-# key bindings
-turtle.onkeypress(gauche, "Left")
-turtle.onkeypress(droite, "Right")
-turtle.onkeypress(haut, "Up")
-turtle.onkeypress(bas, "Down")
-turtle.listen()
-
-# start loop
-turtle.goto(0, 0)
-turtle.penup()
-turtle.mainloop()
+def haut(dicoJeu:dict):
+    turtle = dicoJeu["turtle"]
+    turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
+    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    if 0<=j-1:#Si la cellule au dessus est dans le labyrinthe
+        if dicoJeu["laby"][j-1][i] != 1:#Si la cellule au dessus n'est pas un mur
+            turtle.setheading(90)
+            avancer(dicoJeu)
+            print("haut ; up")
+            test_victoire(i,j-1,dicoJeu)
+            return
+    #Si on a pas pu effectuer le mouvement
+    erreur_mouvement()

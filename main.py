@@ -1,21 +1,5 @@
-from numpy import double
 import lireLaby
 import turtle
-
-fn = input("Nom d'un fichier: ")
-laby, entree, sortie = lireLaby.labyFromFile(fn) #Chargement du fichier labyrinthe
-print("\n")
-
-#Affichage sous forme de matrice du labyrinthe(liste à 2 dimensions)
-for ligne in laby:
-    for nbr in ligne:
-        print("%5.1d"%nbr,end="")
-    print("\n")
-print("Entrée:",entree)
-print("Sortie:",sortie)
-
-#Stockage de toutes les informations du fichier dans un dictionnaire
-dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie}
 
 #--------------------- Affichage du labyrinthe ---------------------
 def afficheTextuel(dicoJeu:dict):
@@ -92,7 +76,7 @@ def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-400,400),epaisseu
     dicoJeu["largeur_graph"] = largeur*epaisseur_cellule
 
 #--------------------- Positionnement de la tortue ---------------------
-def pixel2cell(x:double,y:double, dicoJeu:dict):
+def pixel2cell(x:float,y:float, dicoJeu:dict):
     """Conversion de coordonnées turtle en coordonnées dans le labyrinthe, return None si on est en dehors du labyrinthe"""
     #Limites pour être dans une cellule du labyrinthe (Attention au repère)
     x_origine,y_origine = dicoJeu["origine_graph"]
@@ -127,7 +111,7 @@ def typeCellule(i:int,j:int,dicoJeu:dict):
         for j_voisin in range(j-1,j+2):
             for i_voisin in [[i],[i-1,i+1],[i]][j_voisin-(j-1)]:
                 if 0<=j_voisin<dicoJeu["hauteur"] and 0<=i_voisin<dicoJeu["largeur"]:#si le voisin existe bien dans le labyrinthe
-                    if dicoJeu["laby"][j_voisin][i_voisin] == 0:
+                    if dicoJeu["laby"][j_voisin][i_voisin] == 0:#Si le voisine est un passage
                         nbr_passage_voisin+=1
         
         if nbr_passage_voisin == 1:
@@ -138,26 +122,125 @@ def typeCellule(i:int,j:int,dicoJeu:dict):
                 
 
 #--------------------- Tests ---------------------
-def testClic(x:double,y:double,dicoJeu:dict):
+def testClic(x:float,y:float,dicoJeu:dict):
+    """Donne la position et le type d'une cellule à une position x,y"""
     cell = pixel2cell(x,y,dicoJeu)
-    if cell != None:
+    if cell != None:#Si on est dans le labyrinthe
         i,j = cell
         print("Ligne:",j," Colonne:",i)
         print("Type:",typeCellule(i,j,dicoJeu))#amélioration pour tester typeCellule
     else:
-        print("Erreur, clique en dehors du labyrinthe")
+        print("Erreur, en dehors du labyrinthe")
 
-def turtle_flash():
-    """Paramètre la turtle pour qu'elle dessine rapidement"""
-    #I am speed*
-    global turtle
-    turtle.delay(0)
-    turtle.speed(0)
+#--------------------- Navigation ---------------------
+def erreur_mouvement():
+    """Affiche une erreur pour un mouvement impossible, à appeler dans les fonctions de navigation"""
+    turtle.color("red")
+    print("Erreur, mouvement impossible")
+
+def avancer(dicoJeu:dict):
+    """Avance la turtle de une cellule"""
+    turtle.forward(dicoJeu["epaisseur_cellule"])
+
+def test_victoire(i:int,j:int,dicoJeu:dict):
+    """Test si la turtle est sur la sortie et affiche la victorie si nécessaire"""
+    if [j,i] == dicoJeu["sortie"]:
+        print("Victoire, la sortie a été trouvée")
+        turtle.color("green")
+
+def gauche(dicoJeu:dict):
+    turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
+    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    if 0<=i-1:#Si la cellule à gauche est dans le labyrinthe
+        if dicoJeu["laby"][j][i-1] != 1:#Si la cellule à gauche n'est pas un mur
+            turtle.setheading(180)
+            avancer(dicoJeu)
+            print("gauche ; left")
+            test_victoire(i-1,j,dicoJeu)
+            return
+    #Si on a pas pu effectuer le mouvement
+    erreur_mouvement()
+
+def droite(dicoJeu:dict):
+    turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
+    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    if i+1<dicoJeu["largeur"]:#Si la cellule à droite est dans le labyrinthe
+        if dicoJeu["laby"][j][i+1] != 1:#Si la cellule à droite n'est pas un mur
+            turtle.setheading(0)
+            avancer(dicoJeu)
+            print("droite ; right")
+            test_victoire(i+1,j,dicoJeu)
+            return
+    #Si on a pas pu effectuer le mouvement
+    erreur_mouvement()
+
+
+def bas(dicoJeu:dict):
+    turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
+    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    if j+1<dicoJeu["hauteur"]:#Si la cellule en dessous est dans le labyrinthe
+        if dicoJeu["laby"][j+1][i] != 1:#Si la cellule en dessous n'est pas un mur
+            turtle.setheading(270)
+            avancer(dicoJeu)
+            print("bas ; down")
+            test_victoire(i,j+1,dicoJeu)
+            return
+    #Si on a pas pu effectuer le mouvement
+    erreur_mouvement()
+
+
+def haut(dicoJeu:dict):
+    turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
+    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    if 0<=j-1:#Si la cellule au dessus est dans le labyrinthe
+        if dicoJeu["laby"][j-1][i] != 1:#Si la cellule au dessus n'est pas un mur
+            turtle.setheading(90)
+            avancer(dicoJeu)
+            print("haut ; up")
+            test_victoire(i,j-1,dicoJeu)
+            return
+    #Si on a pas pu effectuer le mouvement
+    erreur_mouvement()
+
+
+
+#------------------------- Programme principal -------------------------
+fn = input("Nom d'un fichier: ")
+laby, entree, sortie = lireLaby.labyFromFile(fn) #Chargement du fichier labyrinthe
+print()
+
+#Affichage sous forme de matrice du labyrinthe(liste à 2 dimensions)
+for ligne in laby:
+    for nbr in ligne:
+        print(nbr, end="")
+    print()
+print("Entrée:",entree)
+print("Sortie:",sortie)
+
+#Stockage de toutes les informations du fichier dans un dictionnaire
+dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie}
 
 afficheTextuel(dicoJeu)
-turtle_flash()
+
+#Paramètres pour accélérer la turtle
+turtle.delay(0)
+turtle.speed(0)
+
 afficheGraphique(dicoJeu)
-turtle.onscreenclick(lambda x,y: testClic(x,y,dicoJeu))
-turtle.color("green")
+
+
+turtle.onscreenclick(lambda x,y: testClic(x,y,dicoJeu)) #Quand on clique sur une cellule on print son type et sa position
+
+#Positionnement de la turtle sur l'entrée
+j_entree,i_entree = dicoJeu["entrée"]
+turtle.goto(cell2pixel(i_entree,j_entree,dicoJeu))
+
+dicoJeu["couleur_turtle"] = "black"#On enregistre une couleur par défaut pour la remettre après une erreur
+#Correspondance des touches de clavier
+turtle.onkeypress(lambda : gauche(dicoJeu), "Left")
+turtle.onkeypress(lambda : droite(dicoJeu), "Right")
+turtle.onkeypress(lambda : haut(dicoJeu), "Up")
+turtle.onkeypress(lambda : bas(dicoJeu), "Down")
+turtle.listen()
 
 turtle.mainloop()

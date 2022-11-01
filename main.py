@@ -143,7 +143,7 @@ def avancer(dicoJeu:dict):
     turtle.forward(dicoJeu["epaisseur_cellule"])
 
 def test_victoire(i:int,j:int,dicoJeu:dict):
-    """Test si la turtle est sur la sortie et affiche la victorie si nécessaire"""
+    """Test si la turtle est sur la sortie et affiche la victoire si nécessaire"""
     if [j,i] == dicoJeu["sortie"]:
         print("Victoire, la sortie a été trouvée")
         turtle.color("green")

@@ -51,3 +51,7 @@ def testClic(x:float,y:float,dicoJeu:dict):
         print("Type:",typeCellule(i,j,dicoJeu))#amélioration pour tester typeCellule
     else:
         print("Erreur, en dehors du labyrinthe")
+
+def get_pos_cell(dicoJeu:dict):
+    """Renvoi la cellule où se trouve la turtle"""
+    return pixel2cell(dicoJeu["turtle"].xcor(),dicoJeu["turtle"].ycor(),dicoJeu)

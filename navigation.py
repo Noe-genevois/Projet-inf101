@@ -1,4 +1,4 @@
-from position import pixel2cell
+from position import pixel2cell,get_pos_cell
 
 def erreur_mouvement(dicoJeu:dict):
     """Affiche une erreur pour un mouvement impossible, à appeler dans les fonctions de navigation"""
@@ -21,7 +21,7 @@ def test_victoire(i:int,j:int,dicoJeu:dict):
 def gauche(dicoJeu:dict):
     turtle = dicoJeu["turtle"]
     turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
-    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    i,j = get_pos_cell(dicoJeu) #cellule où se trouve la turtle
     if 0<=i-1:#Si la cellule à gauche est dans le labyrinthe
         if dicoJeu["laby"][j][i-1] != 1:#Si la cellule à gauche n'est pas un mur
             turtle.setheading(180)
@@ -35,7 +35,7 @@ def gauche(dicoJeu:dict):
 def droite(dicoJeu:dict):
     turtle = dicoJeu["turtle"]
     turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
-    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    i,j = get_pos_cell(dicoJeu) #cellule où se trouve la turtle
     if i+1<dicoJeu["largeur"]:#Si la cellule à droite est dans le labyrinthe
         if dicoJeu["laby"][j][i+1] != 1:#Si la cellule à droite n'est pas un mur
             turtle.setheading(0)
@@ -50,7 +50,7 @@ def droite(dicoJeu:dict):
 def bas(dicoJeu:dict):
     turtle = dicoJeu["turtle"]
     turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
-    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    i,j = get_pos_cell(dicoJeu) #cellule où se trouve la turtle
     if j+1<dicoJeu["hauteur"]:#Si la cellule en dessous est dans le labyrinthe
         if dicoJeu["laby"][j+1][i] != 1:#Si la cellule en dessous n'est pas un mur
             turtle.setheading(270)
@@ -65,7 +65,7 @@ def bas(dicoJeu:dict):
 def haut(dicoJeu:dict):
     turtle = dicoJeu["turtle"]
     turtle.color(dicoJeu["couleur_turtle"])#Couleur par défaut de la turtle pour qu'elle ne reste pas rouge après une erreur
-    i,j = pixel2cell(turtle.xcor(),turtle.ycor(),dicoJeu) #cellule où se trouve la turtle
+    i,j = get_pos_cell(dicoJeu) #cellule où se trouve la turtle
     if 0<=j-1:#Si la cellule au dessus est dans le labyrinthe
         if dicoJeu["laby"][j-1][i] != 1:#Si la cellule au dessus n'est pas un mur
             turtle.setheading(90)

@@ -20,16 +20,14 @@ print("Entrée:",entree)
 print("Sortie:",sortie)
 
 #Stockage de toutes les informations du fichier dans un dictionnaire
-dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie, "turtle":turtle}
+dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie, "turtle":turtle, "commandes":[]}
 
 afficheTextuel(dicoJeu)
 
 #Paramètres pour accélérer la turtle
 turtle.delay(0)
 turtle.speed(0)
-
 afficheGraphique(dicoJeu)
-
 
 turtle.onscreenclick(lambda x,y: testClic(x,y,dicoJeu)) #Quand on clique sur une cellule on print son type et sa position
 
@@ -37,12 +35,13 @@ turtle.onscreenclick(lambda x,y: testClic(x,y,dicoJeu)) #Quand on clique sur une
 j_entree,i_entree = dicoJeu["entrée"]
 turtle.goto(cell2pixel(i_entree,j_entree,dicoJeu))
 
-dicoJeu["couleur_turtle"] = "black"#On enregistre une couleur par défaut pour la remettre après une erreur
+
 #Correspondance des touches de clavier
 turtle.onkeypress(lambda : gauche(dicoJeu), "Left")
 turtle.onkeypress(lambda : droite(dicoJeu), "Right")
 turtle.onkeypress(lambda : haut(dicoJeu), "Up")
 turtle.onkeypress(lambda : bas(dicoJeu), "Down")
 turtle.listen()
+
 
 turtle.mainloop()

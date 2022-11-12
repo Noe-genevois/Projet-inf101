@@ -20,7 +20,7 @@ print("Entrée:",entree)
 print("Sortie:",sortie)
 
 #Stockage de toutes les informations du fichier dans un dictionnaire
-dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie, "turtle":turtle, "commandes":[]}
+dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie, "turtle":turtle, "chemin":[]}
 
 afficheTextuel(dicoJeu)
 
@@ -43,5 +43,8 @@ turtle.onkeypress(lambda : haut(dicoJeu), "Up")
 turtle.onkeypress(lambda : bas(dicoJeu), "Down")
 turtle.listen()
 
+turtle.delay(10)
+turtle.speed(1)
+print(explorer(dicoJeu))
 
 turtle.mainloop()

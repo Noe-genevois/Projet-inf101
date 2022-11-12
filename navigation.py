@@ -6,11 +6,6 @@ def erreur_mouvement(dicoJeu:dict):
     turtle.color("red")
     print("Erreur, mouvement impossible")
 
-def avancer(dicoJeu:dict):
-    """Avance la turtle de une cellule"""
-    turtle = dicoJeu["turtle"]
-    turtle.forward(dicoJeu["epaisseur_cellule"])
-
 def couleur_turtle_case(i:int,j:int,dicoJeu:dict):
     """Change la couleur de la turtle en fonction du type de la case (i,j)"""
     type_case = typeCellule(i,j,dicoJeu)
@@ -25,8 +20,13 @@ def couleur_turtle_case(i:int,j:int,dicoJeu:dict):
     else:
         turtle.color("black")
 
+def avancer(dicoJeu:dict):
+    """Avance la turtle de une cellule"""
+    turtle = dicoJeu["turtle"]
+    turtle.forward(dicoJeu["epaisseur_cellule"])
+
 def gauche(dicoJeu:dict):
-    dicoJeu["commandes"].append('g')#Enregistrement de la commande
+    dicoJeu["chemin"].append('g')#Enregistrement de la commande
     
     turtle = dicoJeu["turtle"]
     i,j = get_pos_cell(dicoJeu) #cellule où se trouve la turtle
@@ -42,7 +42,7 @@ def gauche(dicoJeu:dict):
     return False
 
 def droite(dicoJeu:dict):
-    dicoJeu["commandes"].append('d')#Enregistrement de la commande
+    dicoJeu["chemin"].append('d')#Enregistrement de la commande
 
     turtle = dicoJeu["turtle"]
     i,j = get_pos_cell(dicoJeu) #cellule où se trouve la turtle
@@ -58,7 +58,7 @@ def droite(dicoJeu:dict):
     return False
 
 def bas(dicoJeu:dict):
-    dicoJeu["commandes"].append('b')#Enregistrement de la commande
+    dicoJeu["chemin"].append('b')#Enregistrement de la commande
 
     turtle = dicoJeu["turtle"]
     i,j = get_pos_cell(dicoJeu) #cellule où se trouve la turtle
@@ -74,7 +74,7 @@ def bas(dicoJeu:dict):
     return False
 
 def haut(dicoJeu:dict):
-    dicoJeu["commandes"].append('h')#Enregistrement de la commande
+    dicoJeu["chemin"].append('h')#Enregistrement de la commande
 
     turtle = dicoJeu["turtle"]
     i,j = get_pos_cell(dicoJeu) #cellule où se trouve la turtle
@@ -112,7 +112,7 @@ def suivreChemin(li:list[str],dicoJeu:dict):
     print("Chemin effectué")
 
 def inverserChemin(li:list[str],dicoJeu:dict):
-    """Execute le chemin li (liste de 'g','d','h','b') avec la turtle en sens inverse"""
+    """Execute le chemin li (liste de 'g','d','h','b') avec la turtle, en sens inverse"""
     for i in range(len(li)-1,-1,-1):#On parcours li en sens inverse
         cmd = li[i]
         #On effectue le mouvement
@@ -125,10 +125,48 @@ def inverserChemin(li:list[str],dicoJeu:dict):
         elif cmd == "b":
             mvt = haut(dicoJeu)
         else:#Si on a une commande inconnue dans li
-            print("Erreur, commande invalide")
+            print("Erreur, commande inconnue")
             return
         if not mvt:#Si la commande a raté
             print("Erreur, chemin impossible")
             return
     
     print("Chemin effectué")
+
+
+def explorer(dicoJeu:dict):
+    """Exploration automatique du labyrinthe avec la turtle"""
+    i,j = get_pos_cell(dicoJeu)
+    positions_explorées = []
+    chemin = []
+    commandes_inversées = {'h':bas,'b':haut,'g':droite,'d':gauche}
+    
+    while typeCellule(i,j,dicoJeu) != "sortie":
+        positions_explorées.append((i,j))
+        
+        commandes = {(i-1,j):(gauche,'g'),(i+1,j):(droite,'d'),(i,j-1):(haut,'h'),(i,j+1):(bas,'b')}#Dictionnaire des voisins, déplacements hypothétique
+        commandes_possibles = [] #liste des commandes possibles et qui ne nous ramènent pas en arrière
+        for i_dep,j_dep in commandes.keys():#On test toute les nouvelles positions possibles
+            if 0<=i_dep<dicoJeu["largeur"] and 0<=j_dep<dicoJeu["hauteur"]:#si la case est dans le labyrinthe
+                if typeCellule(i_dep,j_dep,dicoJeu) != "mur":#si la n'est pas un mur
+                    if (i_dep,j_dep) not in positions_explorées:#si on est pas déjà allé sur la case
+                        commandes_possibles.append(commandes[(i_dep,j_dep)])
+        
+        if len(commandes_possibles) > 0:#Si il y a une commande possible
+            commandes_possibles[0][0](dicoJeu) #On effectue la 1ere commande possible
+            chemin.append(commandes_possibles[0][1])#On l'enregistre
+            i,j = get_pos_cell(dicoJeu)#on defini la nouvelle position
+        else:#Si on a aucune commande possible
+            #On retourne au dernier carrefour    
+            commandes_inversées[chemin[-1]](dicoJeu)
+            chemin.pop(-1)
+            i,j = get_pos_cell(dicoJeu)
+            while typeCellule(i,j,dicoJeu) != "carrefour":
+                commandes_inversées[chemin[-1]](dicoJeu)
+                chemin.pop(-1)
+                i,j = get_pos_cell(dicoJeu)
+    
+    return chemin
+
+
+

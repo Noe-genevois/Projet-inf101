@@ -36,7 +36,7 @@ j_entree,i_entree = dicoJeu["entrée"]
 turtle.goto(cell2pixel(i_entree,j_entree,dicoJeu))
 
 
-#Correspondance des touches de clavier
+#Correspondance des touches de clavier pour le contrôle de la turtle
 turtle.onkeypress(lambda : gauche(dicoJeu), "Left")
 turtle.onkeypress(lambda : droite(dicoJeu), "Right")
 turtle.onkeypress(lambda : haut(dicoJeu), "Up")

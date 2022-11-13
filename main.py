@@ -45,6 +45,10 @@ turtle.listen()
 
 turtle.delay(10)
 turtle.speed(1)
-print(explorer(dicoJeu))
+
+chemin = explorer(dicoJeu)
+print(chemin)
+inverserChemin(chemin,dicoJeu)
+suivreChemin(chemin,dicoJeu)
 
 turtle.mainloop()

@@ -48,7 +48,6 @@ turtle.speed(1)
 
 chemin = explorer(dicoJeu)
 print(chemin)
-inverserChemin(chemin,dicoJeu)
-suivreChemin(chemin,dicoJeu)
+
 
 turtle.mainloop()

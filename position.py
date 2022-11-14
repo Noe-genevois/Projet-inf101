@@ -30,11 +30,10 @@ def typeCellule(i:int,j:int,dicoJeu:dict):
         #On veut compter le nombre de voisins(dessus,dessous,droite et gauche) qui sont des passages
         nbr_passage_voisin = 0
         #itération de tout les voisins directs
-        for j_voisin in range(j-1,j+2):
-            for i_voisin in [[i],[i-1,i+1],[i]][j_voisin-(j-1)]:
-                if 0<=j_voisin<dicoJeu["hauteur"] and 0<=i_voisin<dicoJeu["largeur"]:#si le voisin existe bien dans le labyrinthe
-                    if dicoJeu["laby"][j_voisin][i_voisin] == 0:#Si le voisine est un passage
-                        nbr_passage_voisin+=1
+        for i_voisin,j_voisin in [(i-1,j),(i+1,j),(i,j-1),(i,j+1)]:
+            if 0<=j_voisin<dicoJeu["hauteur"] and 0<=i_voisin<dicoJeu["largeur"]:#si le voisin existe bien dans le labyrinthe
+                if dicoJeu["laby"][j_voisin][i_voisin] == 0:#Si le voisine est un passage
+                    nbr_passage_voisin+=1
         
         if nbr_passage_voisin == 1:
             return "impasse"

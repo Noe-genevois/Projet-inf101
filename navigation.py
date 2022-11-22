@@ -1,4 +1,11 @@
-from position import get_pos_cell,typeCellule
+from position import get_pos_cell,typeCellule,cell2pixel
+
+def position_depart(dicoJeu:dict):
+    """Met la tortue à sa position de départ, sûr l'entrée"""
+    dicoJeu["turtle"].delay(0)
+    dicoJeu["turtle"].speed(0)
+    j_entree,i_entree = dicoJeu["entrée"]
+    dicoJeu["turtle"].goto(cell2pixel(i_entree,j_entree,dicoJeu))
 
 def erreur_mouvement(dicoJeu:dict):
     """Affiche une erreur pour un mouvement impossible, à appeler dans les fonctions de navigation"""
@@ -144,11 +151,11 @@ def explorer(dicoJeu:dict):
     while typeCellule(i,j,dicoJeu) != "sortie":
         positions_explorées.append((i,j))
         
-        commandes = {(i-1,j):(gauche,'g'),(i+1,j):(droite,'d'),(i,j-1):(haut,'h'),(i,j+1):(bas,'b')}#Dictionnaire des voisins, déplacements hypothétique
+        commandes = {(i-1,j):(gauche,'g'),(i+1,j):(droite,'d'),(i,j-1):(haut,'h'),(i,j+1):(bas,'b')}#Dictionnaire des cellulees voisines avec la commande pour y aller associée
         commandes_possibles = [] #liste des commandes possibles et qui ne nous ramènent pas en arrière
         for i_dep,j_dep in commandes.keys():#On test toute les nouvelles positions possibles
-            if 0<=i_dep<dicoJeu["largeur"] and 0<=j_dep<dicoJeu["hauteur"]:#si la case est dans le labyrinthe
-                if typeCellule(i_dep,j_dep,dicoJeu) != "mur":#si la n'est pas un mur
+            if 0<=i_dep<dicoJeu["largeur"] and 0<=j_dep<dicoJeu["hauteur"]:#si la cellule est dans le labyrinthe
+                if typeCellule(i_dep,j_dep,dicoJeu) != "mur":#si la cellule n'est pas un mur
                     if (i_dep,j_dep) not in positions_explorées:#si on est pas déjà allé sur la case
                         commandes_possibles.append(commandes[(i_dep,j_dep)])
         
@@ -165,8 +172,20 @@ def explorer(dicoJeu:dict):
                 commandes_inversées[chemin[-1]](dicoJeu)
                 chemin.pop(-1)
                 i,j = get_pos_cell(dicoJeu)
-    
+
+        dicoJeu["chemin_exp"] = chemin #on garde le chemin temporaire dans dicoJeu pour son affichage (cf interface.py)
+
+    dicoJeu.pop("chemin_exp")#suppression chemin temporaire
     return chemin
 
 
-
+def test_parcours(dicoJeu:dict):
+    """Trouve la sortie du labyrinthe, retourne à l'entrée puis à la sortie"""
+    dicoJeu["turtle"].delay(10)
+    dicoJeu["turtle"].speed(1)
+    chemin = explorer(dicoJeu)
+    print(chemin)
+    inverserChemin(chemin,dicoJeu)
+    suivreChemin(chemin,dicoJeu)
+    dicoJeu["turtle"].delay(0)
+    dicoJeu["turtle"].speed(0)

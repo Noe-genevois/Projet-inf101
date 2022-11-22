@@ -5,6 +5,7 @@ from lireLaby import *
 from affichage import *
 from position import *
 from navigation import *
+from interface import *
 
 
 fn = input("Nom d'un fichier: ")
@@ -32,22 +33,12 @@ afficheGraphique(dicoJeu)
 turtle.onscreenclick(lambda x,y: testClic(x,y,dicoJeu)) #Quand on clique sur une cellule on print son type et sa position
 
 #Positionnement de la turtle sur l'entrée
-j_entree,i_entree = dicoJeu["entrée"]
-turtle.goto(cell2pixel(i_entree,j_entree,dicoJeu))
+position_depart(dicoJeu)
 
 
-#Correspondance des touches de clavier pour le contrôle de la turtle
-turtle.onkeypress(lambda : gauche(dicoJeu), "Left")
-turtle.onkeypress(lambda : droite(dicoJeu), "Right")
-turtle.onkeypress(lambda : haut(dicoJeu), "Up")
-turtle.onkeypress(lambda : bas(dicoJeu), "Down")
-turtle.listen()
 
-#turtle.delay(10)
-#turtle.speed(1)
+map_keys(dicoJeu)
 
-#chemin = explorer(dicoJeu)
-#print(chemin)
-
+create_inter(dicoJeu)
 
 turtle.mainloop()

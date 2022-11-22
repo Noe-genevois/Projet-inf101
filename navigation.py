@@ -35,8 +35,8 @@ def gauche(dicoJeu:dict):
             turtle.setheading(180)
             avancer(dicoJeu)
             print("gauche ; left")
-            couleur_turtle_case(i-1,j,dicoJeu)
-            return True
+            couleur_turtle_case(i-1,j,dicoJeu)#Changement couleur turtle
+            return True#commande réussie
     #Si on a pas pu effectuer le mouvement
     erreur_mouvement(dicoJeu)
     return False
@@ -51,8 +51,8 @@ def droite(dicoJeu:dict):
             turtle.setheading(0)
             avancer(dicoJeu)
             print("droite ; right")
-            couleur_turtle_case(i+1,j,dicoJeu)
-            return True
+            couleur_turtle_case(i+1,j,dicoJeu)#Changement couleur turtle
+            return True#commande réussie
     #Si on a pas pu effectuer le mouvement
     erreur_mouvement(dicoJeu)
     return False
@@ -67,8 +67,8 @@ def bas(dicoJeu:dict):
             turtle.setheading(270)
             avancer(dicoJeu)
             print("bas ; down")
-            couleur_turtle_case(i,j+1,dicoJeu)
-            return True
+            couleur_turtle_case(i,j+1,dicoJeu)#Changement couleur turtle
+            return True#commande réussie
     #Si on a pas pu effectuer le mouvement
     erreur_mouvement(dicoJeu)
     return False
@@ -83,8 +83,8 @@ def haut(dicoJeu:dict):
             turtle.setheading(90)
             avancer(dicoJeu)
             print("haut ; up")
-            couleur_turtle_case(i,j-1,dicoJeu)
-            return True
+            couleur_turtle_case(i,j-1,dicoJeu)#Changement couleur turtle
+            return True#commande réussie
     #Si on a pas pu effectuer le mouvement
     erreur_mouvement(dicoJeu)
     return False

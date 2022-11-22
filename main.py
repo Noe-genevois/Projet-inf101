@@ -43,11 +43,11 @@ turtle.onkeypress(lambda : haut(dicoJeu), "Up")
 turtle.onkeypress(lambda : bas(dicoJeu), "Down")
 turtle.listen()
 
-turtle.delay(10)
-turtle.speed(1)
+#turtle.delay(10)
+#turtle.speed(1)
 
-chemin = explorer(dicoJeu)
-print(chemin)
+#chemin = explorer(dicoJeu)
+#print(chemin)
 
 
 turtle.mainloop()

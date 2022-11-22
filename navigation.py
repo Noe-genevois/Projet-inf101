@@ -11,9 +11,9 @@ def couleur_turtle_case(i:int,j:int,dicoJeu:dict):
     type_case = typeCellule(i,j,dicoJeu)
     turtle = dicoJeu["turtle"]
     if type_case == "carrefour":
-        turtle.color("blue")
-    elif type_case == "impasse":
         turtle.color("orange")
+    elif type_case == "impasse":
+        turtle.color("blue")
     elif type_case == "sortie":
         turtle.color("green")
         print("Victoire, la sortie a été trouvée")

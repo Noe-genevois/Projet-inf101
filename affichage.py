@@ -1,3 +1,5 @@
+from position import typeCellule
+
 def afficheTextuel(dicoJeu:dict):
     """Affichage textuel du labyrinthe dans dicoJeu, '#'=mur 'x'=entrée 'o'=sortie ' '=passage"""
     laby_liste = dicoJeu["laby"]
@@ -43,6 +45,14 @@ def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-400,400),epaisseu
     hauteur = len(laby_liste)
     largeur = len(laby_liste[0])
 
+    #On stock des informations utiles pour d'autres fonctions dépendantes de l'affichage graphique
+    dicoJeu["origine_graph"] = origine
+    dicoJeu["epaisseur_cellule"] = epaisseur_cellule
+    dicoJeu["hauteur"] = hauteur
+    dicoJeu["largeur"] = largeur
+    dicoJeu["hauteur_graph"] = hauteur*epaisseur_cellule
+    dicoJeu["largeur_graph"] = largeur*epaisseur_cellule
+
     #Paramètres de départ pour la turtle
     turtle.penup()
     turtle.goto(origine)
@@ -57,15 +67,12 @@ def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-400,400),epaisseu
                 carre(turtle,epaisseur_cellule,"green")
             elif [j,i] == dicoJeu["sortie"]:#sortie
                 carre(turtle,epaisseur_cellule,"red")
+            elif typeCellule(i,j,dicoJeu) == "carrefour":
+                carre(turtle,epaisseur_cellule,"blue")
+            elif typeCellule(i,j,dicoJeu) == "impasse":
+                carre(turtle,epaisseur_cellule,"orange")
             #si on a juste un passage on effectue seulement le décalage
             turtle.forward(epaisseur_cellule)#Décalage pour passer à la cellule suivante de la ligne
         #Passage à la ligne du dessous
         turtle.goto((origine[0],origine[1]-(1+j)*epaisseur_cellule))
     #Fin du dessin
-    #On stock des informations utiles pour d'autres fonctions dépendantes de l'affichage graphique
-    dicoJeu["origine_graph"] = origine
-    dicoJeu["epaisseur_cellule"] = epaisseur_cellule
-    dicoJeu["hauteur"] = hauteur
-    dicoJeu["largeur"] = largeur
-    dicoJeu["hauteur_graph"] = hauteur*epaisseur_cellule
-    dicoJeu["largeur_graph"] = largeur*epaisseur_cellule

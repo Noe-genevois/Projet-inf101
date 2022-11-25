@@ -37,7 +37,7 @@ def carre(turtle,cote:int,couleur:str="black"):
     turtle.penup()
     turtle.end_fill()
 
-def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-400,400),epaisseur_cellule:int=40):
+def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-350,250),epaisseur_cellule:int=40):
     """Affichage graphique avec turtle du labyrinthe, case blanche=passage, noire=mur, verte=entrée, rouge=sortie
     l'origine correspond au coin supérieur gauche"""
     turtle = dicoJeu["turtle"]

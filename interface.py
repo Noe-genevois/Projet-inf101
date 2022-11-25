@@ -37,6 +37,7 @@ def create_inter(dicoJeu:dict):
     button_dict["manuel"] = tk.Button(canvas.master, text="Mode manuel", command = lambda : mode_manuel(dicoJeu,button_dict))
     button_dict["exploration_auto"] = tk.Button(canvas.master, text="Exploration auto", command = lambda : exploration_auto(dicoJeu,button_dict,canvas))
     
+
     pack_buttons(button_dict)
 
 

@@ -96,10 +96,10 @@ def haut(dicoJeu:dict):
     erreur_mouvement(dicoJeu)
     return False
 
-def suivreChemin(li:list[str],dicoJeu:dict):
-    """Execute le chemin li (liste de 'g','d','h','b') avec la turtle"""
-    for i in range(len(li)):#On parcours li
-        cmd = li[i]
+def suivreChemin(chemin:list[str],dicoJeu:dict):
+    """Execute le chemin (liste de 'g','d','h','b') avec la turtle"""
+    for i in range(len(chemin)):#On parcours li
+        cmd = chemin[i]
         #On effectue le mouvement
         if cmd == 'g':
             mvt = gauche(dicoJeu)
@@ -110,7 +110,7 @@ def suivreChemin(li:list[str],dicoJeu:dict):
         elif cmd == "h":
             mvt = haut(dicoJeu)
         else:#Si on a une commande inconnue dans li
-            print("Erreur, commande invalide")
+            print("Erreur, commande inconnue")
             return
         if not mvt:#Si la commande a raté
             print("Erreur, chemin impossible")
@@ -118,10 +118,10 @@ def suivreChemin(li:list[str],dicoJeu:dict):
     
     print("Chemin effectué")
 
-def inverserChemin(li:list[str],dicoJeu:dict):
+def inverserChemin(chemin:list[str],dicoJeu:dict):
     """Execute le chemin li (liste de 'g','d','h','b') avec la turtle, en sens inverse"""
-    for i in range(len(li)-1,-1,-1):#On parcours li en sens inverse
-        cmd = li[i]
+    for i in range(len(chemin)-1,-1,-1):#On parcours li en sens inverse
+        cmd = chemin[i]
         #On effectue le mouvement
         if cmd == 'd':
             mvt = gauche(dicoJeu)

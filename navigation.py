@@ -14,7 +14,7 @@ def erreur_mouvement(dicoJeu:dict):
     print("Erreur, mouvement impossible")
 
 def couleur_turtle_case(i:int,j:int,dicoJeu:dict):
-    """Change la couleur de la turtle en fonction du type de la case (i,j), affichage un message de victoire"""
+    """Change la couleur de la turtle en fonction du type de la case (i,j), affichage du message de victoire"""
     type_case = typeCellule(i,j,dicoJeu)
     turtle = dicoJeu["turtle"]
     if type_case == "carrefour":

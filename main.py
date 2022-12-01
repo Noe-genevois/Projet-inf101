@@ -37,7 +37,7 @@ position_depart(dicoJeu)
 
 
 
-map_keys(dicoJeu)
+map_keys(dicoJeu)#On donne le contrôle manuel à l'utilisateur
 
 create_inter(dicoJeu)
 

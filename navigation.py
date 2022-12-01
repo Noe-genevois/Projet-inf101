@@ -1,9 +1,11 @@
 from position import get_pos_cell,typeCellule,cell2pixel
 
 def position_depart(dicoJeu:dict):
-    """Met la tortue à sa position de départ, sûr l'entrée"""
+    """Met la tortue à sa position de départ, sûr l'entrée et met les paramètres par défaut"""
+    #Paramètres pour turtle rapide
     dicoJeu["turtle"].delay(0)
     dicoJeu["turtle"].speed(0)
+    #Positonnement sur l'entrée
     j_entree,i_entree = dicoJeu["entrée"]
     dicoJeu["turtle"].goto(cell2pixel(i_entree,j_entree,dicoJeu))
 

@@ -19,7 +19,7 @@ def unmap_keys(dicoJeu:dict):
     turtle.onkeypress(None, "Down")
 
 def pack_buttons(button_dict:dict):
-    """place tout les boutons contenus dans button_dict"""
+    """affiche tout les boutons contenus dans button_dict"""
     for b in button_dict.keys():
         button_dict[b].pack(side="left")
 

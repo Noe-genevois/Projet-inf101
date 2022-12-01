@@ -1,11 +1,7 @@
 from position import get_pos_cell,typeCellule,cell2pixel
 
 def position_depart(dicoJeu:dict):
-    """Met la tortue à sa position de départ, sûr l'entrée et met les paramètres par défaut"""
-    #Paramètres pour turtle rapide
-    dicoJeu["turtle"].delay(0)
-    dicoJeu["turtle"].speed(0)
-    #Positonnement sur l'entrée
+    """Met la tortue à sa position de départ, sûr l'entrée"""
     j_entree,i_entree = dicoJeu["entrée"]
     dicoJeu["turtle"].goto(cell2pixel(i_entree,j_entree,dicoJeu))
 
@@ -179,15 +175,3 @@ def explorer(dicoJeu:dict):
 
     dicoJeu.pop("chemin_exp")#suppression chemin temporaire
     return chemin
-
-
-def test_parcours(dicoJeu:dict):
-    """Trouve la sortie du labyrinthe, retourne à l'entrée puis à la sortie"""
-    dicoJeu["turtle"].delay(10)
-    dicoJeu["turtle"].speed(1)
-    chemin = explorer(dicoJeu)
-    print(chemin)
-    inverserChemin(chemin,dicoJeu)
-    suivreChemin(chemin,dicoJeu)
-    dicoJeu["turtle"].delay(0)
-    dicoJeu["turtle"].speed(0)

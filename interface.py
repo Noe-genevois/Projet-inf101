@@ -2,7 +2,8 @@ import tkinter as tk
 from navigation import position_depart,explorer,inverserChemin,suivreChemin,haut,bas,droite,gauche
 
 def map_keys(dicoJeu:dict):
-    """Correspondance des touches de clavier pour le contrôle de la turtle"""
+    """Contrôle au clavier pour la turtle"""
+    #Correspondance touches
     turtle = dicoJeu["turtle"]
     turtle.onkeypress(lambda : gauche(dicoJeu), "Left")
     turtle.onkeypress(lambda : droite(dicoJeu), "Right")
@@ -10,13 +11,22 @@ def map_keys(dicoJeu:dict):
     turtle.onkeypress(lambda : bas(dicoJeu), "Down")
     turtle.listen()
 
+    #Paramètres turtle rapide
+    dicoJeu["turtle"].delay(0)
+    dicoJeu["turtle"].speed(0)
+
 def unmap_keys(dicoJeu:dict):
-    """Enlève le contrôle manuel de la tortue"""
+    """Enlève le contrôle manuel de la tortue pour le passage en automatique"""
+    #Suppresion des touches
     turtle = dicoJeu["turtle"]
     turtle.onkeypress(None, "Left")
     turtle.onkeypress(None, "Right")
     turtle.onkeypress(None, "Up")
     turtle.onkeypress(None, "Down")
+
+    #On ralenti la turtle
+    dicoJeu["turtle"].delay(10)
+    dicoJeu["turtle"].speed(1)
 
 def pack_buttons(button_dict:dict):
     """affiche tout les boutons contenus dans button_dict"""
@@ -42,11 +52,7 @@ def create_inter(dicoJeu:dict):
 
 
 def mode_manuel(dicoJeu:dict,button_dict:dict):
-    #Paramètre turtle rapide
-    dicoJeu["turtle"].delay(0)
-    dicoJeu["turtle"].speed(0)
-
-    #On enlève le bouton aller
+    #On enlève le bouton aller si il existe
     if "aller" in button_dict.keys():
         button_dict["aller"].pack_forget()#on le supprime visuelement
         button_dict.pop("aller")
@@ -87,10 +93,6 @@ def exploration_auto(dicoJeu:dict, button_dict:dict, canvas:tk.Canvas,):
     root.after(100,lambda : chemin_affichage_update(dicoJeu,chemin_affichage,root))
 
     position_depart(dicoJeu)
-
-    #Paramètre turtle lente
-    dicoJeu["turtle"].delay(10)
-    dicoJeu["turtle"].speed(1)
 
     chemin = explorer(dicoJeu)
 

@@ -78,7 +78,7 @@ def chemin_affichage_update(dicoJeu:dict,chemin_affichage:tk.Label,root:tk.Tk):
     if "chemin_exp" in dicoJeu.keys():
         chemin_affichage["text"] = " ".join(dicoJeu["chemin_exp"])
     if chemin_affichage.winfo_ismapped():#Si chemin_affichage est visible
-        root.after(100,lambda : chemin_affichage_update(dicoJeu,chemin_affichage,root))#équivalent à une récursivité/une boucle (auto appel)
+        root.after(100,lambda : chemin_affichage_update(dicoJeu,chemin_affichage,root))#la fonction s'autoappel dans 100 ms
 
 def exploration_auto(dicoJeu:dict, button_dict:dict, canvas:tk.Canvas,):
     """commande du bouton mode automatique/manuel"""

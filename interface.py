@@ -82,6 +82,8 @@ def chemin_affichage_update(dicoJeu:dict,chemin_affichage:tk.Label,root:tk.Tk):
 
 def exploration_auto(dicoJeu:dict, button_dict:dict, canvas:tk.Canvas,):
     """commande du bouton mode automatique/manuel"""
+
+    position_depart(dicoJeu)
     unmap_keys(dicoJeu)#enlève le contrôle manuel
     
     #On enlève les bouttons
@@ -91,8 +93,6 @@ def exploration_auto(dicoJeu:dict, button_dict:dict, canvas:tk.Canvas,):
     root = canvas.winfo_toplevel()
     chemin_affichage.pack(side="left")
     root.after(100,lambda : chemin_affichage_update(dicoJeu,chemin_affichage,root))
-
-    position_depart(dicoJeu)
 
     chemin = explorer(dicoJeu)
 

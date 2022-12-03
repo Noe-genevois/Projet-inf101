@@ -25,6 +25,7 @@ dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie, "turtle":turtle, "chemi
 
 afficheTextuel(dicoJeu)
 
+turtle.Screen().setup(1000,800)
 #Paramètres pour accélérer la turtle
 turtle.delay(0)
 turtle.speed(0)

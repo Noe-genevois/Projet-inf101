@@ -17,16 +17,22 @@ def cell2pixel(i:int,j:int,dicoJeu:dict):
     y = y_origine-(j+0.5)*dicoJeu["epaisseur_cellule"]
     return (x,y)
 
-def typeCellule(i:int,j:int,dicoJeu:dict):
+def typeCellule(coord:tuple[int,int],dicoJeu:dict):
     """Donne le type de la cellule (entrée,sortie,mur,passage,impasse,carrefour) pour la cellule aux coordonnées i,j"""
+    i,j = coord
+    if not(0<=i<dicoJeu["largeur"] and 0<=j<dicoJeu["hauteur"]): #Si la case est en dehors du labyrinthe
+        return None
+
+
     if dicoJeu["entrée"] == [j,i]:
         return "entrée"
     if dicoJeu["sortie"] == [j,i]:
         return "sortie"
+    
     cellule = dicoJeu["laby"][j][i]
     if cellule == 1:
         return "mur"
-    if cellule == 0:
+    if cellule == 0:#la cellule est un passage
         #On veut compter le nombre de voisins(dessus,dessous,droite et gauche) qui sont des passages
         nbr_passage_voisin = 0
         #itération de tout les voisins directs
@@ -47,7 +53,7 @@ def testClic(x:float,y:float,dicoJeu:dict):
     if cell != None:#Si on est dans le labyrinthe
         i,j = cell
         print("Ligne:",j," Colonne:",i)
-        print("Type:",typeCellule(i,j,dicoJeu))#amélioration pour tester typeCellule
+        print("Type:",typeCellule(cell,dicoJeu))#amélioration pour tester typeCellule
     else:
         print("Erreur, en dehors du labyrinthe")
 

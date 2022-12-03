@@ -13,7 +13,7 @@ def erreur_mouvement(dicoJeu:dict):
 
 def couleur_turtle_case(i:int,j:int,dicoJeu:dict):
     """Change la couleur de la turtle en fonction du type de la case (i,j), affichage du message de victoire"""
-    type_case = typeCellule(i,j,dicoJeu)
+    type_case = typeCellule((i,j),dicoJeu)
     turtle = dicoJeu["turtle"]
     if type_case == "carrefour":
         turtle.color("orange")
@@ -141,37 +141,39 @@ def inverserChemin(chemin:list[str],dicoJeu:dict):
 
 def explorer(dicoJeu:dict):
     """Exploration automatique du labyrinthe avec la turtle"""
-    i,j = get_pos_cell(dicoJeu)
     positions_explorées = []
     chemin = []
     commandes_inversées = {'h':bas,'b':haut,'g':droite,'d':gauche}
-    
-    while typeCellule(i,j,dicoJeu) != "sortie":
+    commandes_str = {gauche:'g',droite:'d',haut:'h',bas:'b'}
+
+    while typeCellule(get_pos_cell(dicoJeu),dicoJeu) != "sortie":
+        i,j = get_pos_cell(dicoJeu)
+
         positions_explorées.append((i,j))
+        voisins_commandes = {(i-1,j):gauche,(i+1,j):droite,(i,j-1):haut,(i,j+1):bas}#Dictionnaire des cellulees voisines avec la commande pour y aller associée
         
-        commandes = {(i-1,j):(gauche,'g'),(i+1,j):(droite,'d'),(i,j-1):(haut,'h'),(i,j+1):(bas,'b')}#Dictionnaire des cellulees voisines avec la commande pour y aller associée
-        commandes_possibles = [] #liste des commandes possibles et qui ne nous ramènent pas en arrière
-        for i_dep,j_dep in commandes.keys():#On test toute les nouvelles positions possibles
-            if 0<=i_dep<dicoJeu["largeur"] and 0<=j_dep<dicoJeu["hauteur"]:#si la cellule est dans le labyrinthe
-                if typeCellule(i_dep,j_dep,dicoJeu) != "mur":#si la cellule n'est pas un mur
-                    if (i_dep,j_dep) not in positions_explorées:#si on est pas déjà allé sur la case
-                        commandes_possibles.append(commandes[(i_dep,j_dep)])
+        commande = None #Commande qu'on doit exécuter pour continuer l'exploration, ou None si il n'y a pas de commande possible
+        if typeCellule((i,j),dicoJeu) != "impasse": #Si on a une impasse on sait qu'il n'y a pas de commande possible
+            for coord_voisin in voisins_commandes.keys():#On test toute les nouvelles positions possibles
+                if coord_voisin not in positions_explorées:#si on est pas déjà allé sur la case
+                    type_cell = typeCellule(coord_voisin,dicoJeu)
+                    if type_cell != "mur" and type_cell != None:#si la cellule n'est pas un mur
+                        commande = voisins_commandes[coord_voisin]
+                        break #Une fois qu'on a notre commande la for est inutile
         
-        if len(commandes_possibles) > 0:#Si il y a une commande possible
-            commandes_possibles[0][0](dicoJeu) #On effectue la 1ere commande possible
-            chemin.append(commandes_possibles[0][1])#On l'enregistre
-            i,j = get_pos_cell(dicoJeu)#on defini la nouvelle position
+        if commande != None :#Si il y a une commande possible
+            commande(dicoJeu) #On execute le mouvement
+            chemin.append(commandes_str[commande])#On l'enregistre
         else:#Si on a aucune commande possible
-            #On retourne au dernier carrefour    
-            commandes_inversées[chemin[-1]](dicoJeu)
-            chemin.pop(-1)
-            i,j = get_pos_cell(dicoJeu)
-            while typeCellule(i,j,dicoJeu) != "carrefour":
+            #On retourne au dernier carrefour
+            retour_arriere = True
+            while retour_arriere:
                 commandes_inversées[chemin[-1]](dicoJeu)
                 chemin.pop(-1)
-                i,j = get_pos_cell(dicoJeu)
+                if typeCellule(get_pos_cell(dicoJeu),dicoJeu) == "carrefour":
+                    retour_arriere = False
 
-        dicoJeu["chemin_exp"] = chemin #on garde le chemin temporaire dans dicoJeu pour son affichage (cf interface.py)
+        dicoJeu["chemin_tmp"] = chemin #on garde le chemin temporaire dans dicoJeu pour son affichage (cf interface.py)
 
-    dicoJeu.pop("chemin_exp")#suppression chemin temporaire
+    dicoJeu.pop("chemin_tmp")#suppression chemin temporaire
     return chemin

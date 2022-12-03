@@ -67,9 +67,9 @@ def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-350,250),epaisseu
                 carre(turtle,epaisseur_cellule,"green")
             elif [j,i] == dicoJeu["sortie"]:#sortie
                 carre(turtle,epaisseur_cellule,"red")
-            elif typeCellule(i,j,dicoJeu) == "carrefour":
+            elif typeCellule((i,j),dicoJeu) == "carrefour":
                 carre(turtle,epaisseur_cellule,"blue")
-            elif typeCellule(i,j,dicoJeu) == "impasse":
+            elif typeCellule((i,j),dicoJeu) == "impasse":
                 carre(turtle,epaisseur_cellule,"orange")
             #si on a juste un passage on effectue seulement le décalage
             turtle.forward(epaisseur_cellule)#Décalage pour passer à la cellule suivante de la ligne

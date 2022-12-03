@@ -73,12 +73,12 @@ def aller(dicoJeu:dict,button_dict:dict,chemin:list[str],inverser):
         button_dict["aller"]["command"] = lambda : aller(dicoJeu,button_dict,chemin,True)
         pack_buttons(button_dict)
 7
-def chemin_affichage_update(dicoJeu:dict,chemin_affichage:tk.Label,root:tk.Tk):
+def chemin_affichage_update(dicoJeu:dict,chemin_affichage:tk.Label,tk:tk.Tk):
     """Met à jour l'affichage du chemin d'exploration"""
     if "chemin_exp" in dicoJeu.keys():
         chemin_affichage["text"] = " ".join(dicoJeu["chemin_exp"])
     if chemin_affichage.winfo_ismapped():#Si chemin_affichage est visible
-        root.after(100,lambda : chemin_affichage_update(dicoJeu,chemin_affichage,root))#la fonction s'autoappel dans 100 ms
+        tk.after(100,lambda : chemin_affichage_update(dicoJeu,chemin_affichage,tk))#la fonction s'autoappel dans 100 ms
 
 def exploration_auto(dicoJeu:dict, button_dict:dict, canvas:tk.Canvas,):
     """commande du bouton mode automatique/manuel"""
@@ -90,9 +90,9 @@ def exploration_auto(dicoJeu:dict, button_dict:dict, canvas:tk.Canvas,):
     remove_buttons(button_dict)
 
     chemin_affichage = tk.Label(canvas.master)
-    root = canvas.winfo_toplevel()
     chemin_affichage.pack(side="left")
-    root.after(100,lambda : chemin_affichage_update(dicoJeu,chemin_affichage,root))
+    tk = canvas.winfo_toplevel() # récuperation de l'instance tk de turtle
+    tk.after(100,lambda : chemin_affichage_update(dicoJeu,chemin_affichage,tk))#appel chemin_affichage_update après 100ms
 
     chemin = explorer(dicoJeu)
 

@@ -32,7 +32,7 @@ def typeCellule(i:int,j:int,dicoJeu:dict):
         #itération de tout les voisins directs
         for i_voisin,j_voisin in [(i-1,j),(i+1,j),(i,j-1),(i,j+1)]:
             if 0<=j_voisin<dicoJeu["hauteur"] and 0<=i_voisin<dicoJeu["largeur"]:#si le voisin existe bien dans le labyrinthe
-                if dicoJeu["laby"][j_voisin][i_voisin] == 0:#Si le voisine est un passage
+                if dicoJeu["laby"][j_voisin][i_voisin] == 0:#Si le voisin est un passage
                     nbr_passage_voisin+=1
         
         if nbr_passage_voisin == 1:

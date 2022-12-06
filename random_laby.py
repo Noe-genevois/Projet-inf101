@@ -43,19 +43,19 @@ def random_generate(largeur:int,hauteur:int,entree,sortie):
             laby[j].append(0)
     
     nbr_max_murs = largeur*hauteur//2
-    wall_already_tried = []
+    cases_deja_traitees = []
 
     #Dans cette partie on prend des cases au hasard pour les transformer en mur en s'assurant de la viabilité du labyritnhe
-    while nbr_murs(laby) < nbr_max_murs and len(wall_already_tried) <= largeur*hauteur-2: #Tant qu'on a pas atteint le nombre de murs désiré et qu'on a encore des murs à essayer       
+    while nbr_murs(laby) < nbr_max_murs and len(cases_deja_traitees) <= largeur*hauteur-2: #Tant qu'on a pas atteint le nombre de murs désiré et qu'on a encore des cases à traiter     
         
         #Case aléatoire
         j_rand = randint(0,hauteur-1)
         i_rand = randint(0,largeur-1)
 
         #Si la coordonnée a pas déjà été itérée et que ce n'est ni l'entrée ni la sortie
-        if [j_rand,i_rand] not in wall_already_tried and [j_rand,i_rand] != entree and [j_rand,i_rand] != sortie:        
+        if [j_rand,i_rand] not in cases_deja_traitees and [j_rand,i_rand] != entree and [j_rand,i_rand] != sortie:        
             laby[j_rand][i_rand] = 1 #On transforme la case en mur
-            wall_already_tried.append([j_rand,i_rand])#On ajoute la case au murs qu'on a déjà au moins essayé
+            cases_deja_traitees.append([j_rand,i_rand])#On ajoute la case au murs qu'on a déjà au moins essayé
             #On itère les voisin pour vérifier que le nouveau mur ne créé pas de partie inaccessible
             for voisin in [[j_rand-1,i_rand],[j_rand+1,i_rand],[j_rand,i_rand+1],[j_rand,i_rand-1]]:
                 j_voisin,i_voisin = voisin

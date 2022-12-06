@@ -24,7 +24,7 @@ print()
 for ligne in laby:
     for nbr in ligne:
         print(nbr, end="")
-    print()
+    print()#Saut de ligne
 print("Entrée:",entree)
 print("Sortie:",sortie)
 

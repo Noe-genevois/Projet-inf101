@@ -6,15 +6,15 @@ def afficheTextuel(dicoJeu:dict):
     hauteur = len(laby_liste)
     largeur = len(laby_liste[0])
     #on parcours chaque case du labyrinthe
-    for y in range(hauteur):
-        for x in range(largeur):
-            case = laby_liste[y][x]
+    for j in range(hauteur):
+        for i in range(largeur):
+            case = laby_liste[j][i]
             if case == 1: #la case est un mur
                 print('#', end='')
             else: #case == 0, la case est un passage
-                if dicoJeu["entrée"] == [y,x]:
+                if dicoJeu["entrée"] == [j,i]:
                     print('x', end='')
-                elif dicoJeu["sortie"] == [y,x]:
+                elif dicoJeu["sortie"] == [j,i]:
                     print('o', end='')
                 else: # la case est un passage quelconque
                     print(' ',end='')
@@ -37,7 +37,7 @@ def carre(turtle,cote:int,couleur:str="black"):
     turtle.penup()
     turtle.end_fill()
 
-def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-350,250),epaisseur_cellule:int=40):
+def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-400,300),epaisseur_cellule:int=40):
     """Affichage graphique avec turtle du labyrinthe, case blanche=passage, noire=mur, verte=entrée, rouge=sortie
     l'origine correspond au coin supérieur gauche"""
     turtle = dicoJeu["turtle"]
@@ -76,3 +76,4 @@ def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-350,250),epaisseu
         #Passage à la ligne du dessous
         turtle.goto((origine[0],origine[1]-(1+j)*epaisseur_cellule))
     #Fin du dessin
+    turtle.color("black")

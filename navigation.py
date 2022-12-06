@@ -150,7 +150,7 @@ def explorer(dicoJeu:dict):
         i,j = get_pos_cell(dicoJeu)
 
         positions_explorées.append((i,j))
-        voisins_commandes = {(i-1,j):gauche,(i+1,j):droite,(i,j-1):haut,(i,j+1):bas}#Dictionnaire des cellulees voisines avec la commande pour y aller associée
+        voisins_commandes = {(i-1,j):gauche,(i+1,j):droite,(i,j+1):bas,(i,j-1):haut}#Dictionnaire des cellulees voisines avec la commande pour y aller associée
         
         commande = None #Commande qu'on doit exécuter pour continuer l'exploration, ou None si il n'y a pas de commande possible
         if typeCellule((i,j),dicoJeu) != "impasse": #Si on a une impasse on sait qu'il n'y a pas de commande possible
@@ -170,10 +170,11 @@ def explorer(dicoJeu:dict):
             while retour_arriere:
                 commandes_inversées[chemin[-1]](dicoJeu)
                 chemin.pop(-1)
-                if typeCellule(get_pos_cell(dicoJeu),dicoJeu) == "carrefour":
+                if typeCellule(get_pos_cell(dicoJeu),dicoJeu) == "carrefour" or len(chemin) == 0:
                     retour_arriere = False
 
         dicoJeu["chemin_tmp"] = chemin #on garde le chemin temporaire dans dicoJeu pour son affichage (cf interface.py)
-
+    
     dicoJeu.pop("chemin_tmp")#suppression chemin temporaire
     return chemin
+

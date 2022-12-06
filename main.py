@@ -6,10 +6,18 @@ from affichage import *
 from position import *
 from navigation import *
 from interface import *
+from random_laby import *
 
+choix = input("fichier/random: ")
 
-fn = input("Nom d'un fichier: ")
-laby, entree, sortie = labyFromFile(fn) #Chargement du fichier labyrinthe
+if choix == "fichier":
+    fn = input("Nom d'un fichier: ")
+    laby, entree, sortie = labyFromFile(fn) #Chargement du fichier labyrinthe
+elif choix == "random":
+    entree = [0,0]
+    sortie = [14,19]
+    laby = random_generate(20,15,entree,sortie)
+
 print()
 
 #Affichage sous forme de matrice du labyrinthe(liste à 2 dimensions)

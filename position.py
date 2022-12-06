@@ -45,7 +45,8 @@ def typeCellule(coord:tuple[int,int],dicoJeu:dict):
             return "impasse"
         if nbr_passage_voisin == 2:
             return "passage"
-        return "carrefour" #si on a ni une impasse ni un passage alors c'est un 
+        if nbr_passage_voisin > 2:
+            return "carrefour" #si on a ni une impasse ni un passage alors c'est un 
         
 def testClic(x:float,y:float,dicoJeu:dict):
     """Donne la position et le type d'une cellule à une position x,y"""

@@ -46,15 +46,13 @@ def random_generate(largeur:int,hauteur:int,entree,sortie):
     wall_already_tried = []
 
     #Dans cette partie on prend des cases au hasard pour les transformer en mur en s'assurant de la viabilité du labyritnhe
-    while nbr_murs(laby) < nbr_max_murs: #Tant qu'on a pas atteint le nombre de murs désiré       
-        print("Génération:",nbr_murs(laby),"/",nbr_max_murs)
+    while nbr_murs(laby) < nbr_max_murs and len(wall_already_tried) <= largeur*hauteur-2: #Tant qu'on a pas atteint le nombre de murs désiré et qu'on a encore des murs à essayer       
         
         #Case aléatoire
         j_rand = randint(0,hauteur-1)
         i_rand = randint(0,largeur-1)
 
-
-        #Si la coordonnée a paas déjà été itérée et que ce n'est ni l'entrée ni la sortie
+        #Si la coordonnée a pas déjà été itérée et que ce n'est ni l'entrée ni la sortie
         if [j_rand,i_rand] not in wall_already_tried and [j_rand,i_rand] != entree and [j_rand,i_rand] != sortie:        
             laby[j_rand][i_rand] = 1 #On transforme la case en mur
             wall_already_tried.append([j_rand,i_rand])#On ajoute la case au murs qu'on a déjà au moins essayé
@@ -65,8 +63,5 @@ def random_generate(largeur:int,hauteur:int,entree,sortie):
                     if laby[j_voisin][i_voisin] == 0:
                         if not solvable(laby, entree, voisin, explore=[]):#Si on ne peu plus atteindre ce voisin
                             laby[j_rand][i_rand] = 0#On annule le mur
-
-        if len(wall_already_tried) == largeur*hauteur-2: #Si on a plus de nouvelle case à essayer
-            return laby
+    
     return laby
-

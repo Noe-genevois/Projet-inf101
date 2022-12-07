@@ -26,6 +26,9 @@ def nbr_murs(laby):
 
 def random_generate(largeur:int,hauteur:int,entree:tuple[int,int],sortie:tuple[int,int]):
     """génère un labyrinthe aléatoire"""
+    assert(entree[0] < largeur and entree[1] < hauteur), "Entrée en dehors du labyrinthe"
+    assert(sortie[0] < largeur and sortie[1] < hauteur), "Sortie en dehors du labyrinthe"
+
     #On créer un labyrinthe sans mur
     laby = []
     for j in range(hauteur):

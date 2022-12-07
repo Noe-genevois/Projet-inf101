@@ -45,6 +45,8 @@ def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-400,300),epaisseu
     hauteur = len(laby_liste)
     largeur = len(laby_liste[0])
 
+    origine = (-epaisseur_cellule*largeur/2,epaisseur_cellule*hauteur/2)
+
     #On stock des informations utiles pour d'autres fonctions dépendantes de l'affichage graphique
     dicoJeu["origine_graph"] = origine
     dicoJeu["epaisseur_cellule"] = epaisseur_cellule

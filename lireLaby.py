@@ -1,8 +1,13 @@
-def labyFromFile(fn) :
+from os.path import exists
+
+chemin_dossier_laby = "laby/"
+
+def labyFromFile(fn:str) :
     """
     Lecture d'un labyrinthe dans le fichier de nom fn
     """
-    f = open(fn)
+    global chemin_dossier_laby
+    f = open(chemin_dossier_laby+fn)
     laby = []
     indline = 0
     for fileline in f:
@@ -29,3 +34,8 @@ def labyFromFile(fn) :
         indline += 1
     f.close()
     return laby, mazeIn, mazeOut
+
+def fichier_existe(fn:str):
+    """Renvoi un booléan indiquant si le fichier de labyrinthe existe"""
+    global chemin_dossier_laby
+    return exists(chemin_dossier_laby+fn)

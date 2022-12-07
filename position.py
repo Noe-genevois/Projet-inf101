@@ -51,7 +51,7 @@ def testClic(x:float,y:float,dicoJeu:dict):
         print("Ligne:",j," Colonne:",i)
         print("Type:",typeCellule(cell,dicoJeu))#amélioration pour tester typeCellule
     else:
-        print("Erreur, en dehors du labyrinthe")
+        print("Erreur, clic en dehors du labyrinthe")
 
 def get_pos_cell(dicoJeu:dict):
     """Renvoi la cellule où se trouve la turtle"""

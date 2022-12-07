@@ -8,12 +8,19 @@ from navigation import *
 from interface import *
 from random_laby import *
 
-choix = input("fichier/aleatoire: ")
+choix = input("fichier/aléatoire: ")
+while choix not in ["fichier","aléatoire"]:
+    print("Erreur, choix incorrect")
+    choix = input("fichier/aléatoire: ")
 
 if choix == "fichier":
     fn = input("Nom d'un fichier: ")
+    while not fichier_existe(fn):
+        print("Erreur, fichier inexistant")
+        fn = input("Nom d'un fichier: ")
     laby, entree, sortie = labyFromFile(fn) #Chargement du fichier labyrinthe
-elif choix == "aleatoire":
+elif choix == "aléatoire":
+    print("rand")
     entree = (0,0)
     sortie = (19,14)
     laby = random_generate(20,15,entree,sortie)
@@ -34,9 +41,12 @@ dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie, "turtle":turtle, "chemi
 afficheTextuel(dicoJeu)
 
 turtle.Screen().setup(1000,800)
-#Paramètres pour accélérer la turtle
+
+#Paramètres turtle rapide
 turtle.delay(0)
 turtle.speed(0)
+
+
 afficheGraphique(dicoJeu)
 
 turtle.onscreenclick(lambda x,y: testClic(x,y,dicoJeu)) #Quand on clique sur une cellule on print son type et sa position

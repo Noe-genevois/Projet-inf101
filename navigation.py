@@ -39,7 +39,7 @@ def gauche(dicoJeu:dict):
         if dicoJeu["laby"][j][i-1] != 1:#Si la cellule à gauche n'est pas un mur
             turtle.setheading(180)
             avancer(dicoJeu)
-            print("gauche ; left")
+            print("gauche")
             couleur_turtle_case(i-1,j,dicoJeu)#Changement couleur turtle
             return True#commande réussie
     #Si on a pas pu effectuer le mouvement
@@ -55,7 +55,7 @@ def droite(dicoJeu:dict):
         if dicoJeu["laby"][j][i+1] != 1:#Si la cellule à droite n'est pas un mur
             turtle.setheading(0)
             avancer(dicoJeu)
-            print("droite ; right")
+            print("droite")
             couleur_turtle_case(i+1,j,dicoJeu)#Changement couleur turtle
             return True#commande réussie
     #Si on a pas pu effectuer le mouvement
@@ -71,7 +71,7 @@ def bas(dicoJeu:dict):
         if dicoJeu["laby"][j+1][i] != 1:#Si la cellule en dessous n'est pas un mur
             turtle.setheading(270)
             avancer(dicoJeu)
-            print("bas ; down")
+            print("bas")
             couleur_turtle_case(i,j+1,dicoJeu)#Changement couleur turtle
             return True#commande réussie
     #Si on a pas pu effectuer le mouvement
@@ -87,7 +87,7 @@ def haut(dicoJeu:dict):
         if dicoJeu["laby"][j-1][i] != 1:#Si la cellule au dessus n'est pas un mur
             turtle.setheading(90)
             avancer(dicoJeu)
-            print("haut ; up")
+            print("haut")
             couleur_turtle_case(i,j-1,dicoJeu)#Changement couleur turtle
             return True#commande réussie
     #Si on a pas pu effectuer le mouvement

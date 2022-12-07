@@ -40,7 +40,7 @@ dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie, "turtle":turtle, "chemi
 
 afficheTextuel(dicoJeu)
 
-turtle.Screen().setup(1000,800)
+turtle.Screen().setup(1000,800)#Taille de la fenêtre
 
 #Paramètres turtle rapide
 turtle.delay(0)

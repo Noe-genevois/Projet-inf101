@@ -37,7 +37,7 @@ def carre(turtle,cote:int,couleur:str="black"):
     turtle.penup()
     turtle.end_fill()
 
-def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-400,300),epaisseur_cellule:int=40):
+def afficheGraphique(dicoJeu:dict,epaisseur_cellule:int=40):
     """Affichage graphique avec turtle du labyrinthe, case blanche=passage, noire=mur, verte=entrée, rouge=sortie
     l'origine correspond au coin supérieur gauche"""
     turtle = dicoJeu["turtle"]
@@ -45,6 +45,7 @@ def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-400,300),epaisseu
     hauteur = len(laby_liste)
     largeur = len(laby_liste[0])
 
+    #On place l'origine de manière à centrer le labyrinthe sur la fenêtre
     origine = (-epaisseur_cellule*largeur/2,epaisseur_cellule*hauteur/2)
 
     #On stock des informations utiles pour d'autres fonctions dépendantes de l'affichage graphique

@@ -167,7 +167,7 @@ def explorer(dicoJeu:dict):
                 #On dépile la dernière commande executée et on execute son inverse
                 commandes_inversées[chemin[-1]](dicoJeu)
                 chemin.pop(-1)
-                #Si on est revenu au carrefour ou si on est revenu à l'entrée
+                #Si on est revenu à un carrefour ou si on a plus de chemin à remonter
                 if typeCellule(get_pos_cell(dicoJeu),dicoJeu) == "carrefour" or len(chemin) == 0:#Condition d'arrêt de la boucle
                     retour_arriere = False
     

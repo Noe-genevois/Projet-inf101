@@ -1,16 +1,16 @@
 from random import randint
 from position import passages_voisins
 
-def solvable(laby:list,depart:tuple[int,int],destination:tuple[int,int],cases_explorees=[]):
+def solvable(laby:list,depart:tuple[int,int],destination:tuple[int,int],cases_explorées:list=[]):
     """Retourne si un chemin existe entre le départ et la destination dans le labyrinthe (récursif)"""
     if abs(depart[0]-destination[0])+abs(depart[1]-destination[1]) <= 1:#Si on est sur la destination ou à côté alors c'est qu'on a réussi à relier le départ d'origine à la destination
         return True
     else:
         #On explore le ou les chemins voisins non visités
         for v in passages_voisins(depart,laby):
-            if v not in cases_explorees:
-                cases_explorees+=[v]#On ajoute le voisin aux cases explorées
-                if solvable(laby, v, destination, cases_explorees): #On explore le voisin
+            if v not in cases_explorées:
+                cases_explorées.append(v)#On ajoute le voisin aux cases explorées
+                if solvable(laby, v, destination, cases_explorées): #On explore le voisin
                     return True
         #Si le chemin échoue
         return False

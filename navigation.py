@@ -148,29 +148,27 @@ def explorer(dicoJeu:dict):
 
     while typeCellule(get_pos_cell(dicoJeu),dicoJeu) != "sortie":
         i,j = get_pos_cell(dicoJeu)
-
         positions_explorées.append((i,j))
         voisins_commandes = {(i-1,j):gauche,(i+1,j):droite,(i,j+1):bas,(i,j-1):haut}#Dictionnaire des cellulees voisines avec la commande pour y aller associée
         
-        commande = None #Commande qu'on doit exécuter pour continuer l'exploration, ou None si il n'y a pas de commande possible
-        if typeCellule((i,j),dicoJeu) != "impasse": #Si on a une impasse on sait qu'il n'y a pas de commande possible
-            for coord_voisin in voisins_commandes.keys():#On test toute les nouvelles positions possibles
-                if coord_voisin not in positions_explorées:#si on est pas déjà allé sur la case
-                    type_cell = typeCellule(coord_voisin,dicoJeu)
-                    if type_cell != "mur" and type_cell != None:#si la cellule n'est pas un mur
-                        commande = voisins_commandes[coord_voisin]
-                        break #Une fois qu'on a notre commande la for est inutile
+        commande = None #Commande qu'on doit exécuter pour continuer l'exploration
+        for coord_voisin in passages_voisins((i,j),dicoJeu["laby"]):#On test toute les nouvelles positions possibles
+            if coord_voisin not in positions_explorées:#si on est pas déjà allé sur la case
+                    commande = voisins_commandes[coord_voisin]
+                    break #On a besoin que d'une seule commande
         
         if commande != None :#Si il y a une commande possible
             commande(dicoJeu) #On execute le mouvement
             chemin.append(commandes_str[commande])#On l'enregistre
         else:#Si on a aucune commande possible
-            #On retourne au dernier carrefour en dépilant les commandes enregistrées et en executant leur inverse
+            #On retourne au dernier carrefour
             retour_arriere = True
             while retour_arriere:
+                #On dépile la dernière commande executée et on execute son inverse
                 commandes_inversées[chemin[-1]](dicoJeu)
                 chemin.pop(-1)
-                if typeCellule(get_pos_cell(dicoJeu),dicoJeu) == "carrefour" or len(chemin) == 0:
+                #Si on est revenu au carrefour ou si on est revenu à l'entrée
+                if typeCellule(get_pos_cell(dicoJeu),dicoJeu) == "carrefour" or len(chemin) == 0:#Condition d'arrêt de la boucle
                     retour_arriere = False
     
     return chemin

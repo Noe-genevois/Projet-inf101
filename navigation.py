@@ -1,8 +1,8 @@
-from position import get_pos_cell,typeCellule,cell2pixel
+from position import get_pos_cell,typeCellule,cell2pixel,passages_voisins
 
 def position_depart(dicoJeu:dict):
     """Met la tortue à sa position de départ, sûr l'entrée"""
-    j_entree,i_entree = dicoJeu["entrée"]
+    i_entree,j_entree = dicoJeu["entrée"]
     dicoJeu["turtle"].goto(cell2pixel(i_entree,j_entree,dicoJeu))
 
 def erreur_mouvement(dicoJeu:dict):
@@ -165,16 +165,13 @@ def explorer(dicoJeu:dict):
             commande(dicoJeu) #On execute le mouvement
             chemin.append(commandes_str[commande])#On l'enregistre
         else:#Si on a aucune commande possible
-            #On retourne au dernier carrefour
+            #On retourne au dernier carrefour en dépilant les commandes enregistrées et en executant leur inverse
             retour_arriere = True
             while retour_arriere:
                 commandes_inversées[chemin[-1]](dicoJeu)
                 chemin.pop(-1)
                 if typeCellule(get_pos_cell(dicoJeu),dicoJeu) == "carrefour" or len(chemin) == 0:
                     retour_arriere = False
-
-        dicoJeu["chemin_tmp"] = chemin #on garde le chemin temporaire dans dicoJeu pour son affichage (cf interface.py)
     
-    dicoJeu.pop("chemin_tmp")#suppression chemin temporaire
     return chemin
 

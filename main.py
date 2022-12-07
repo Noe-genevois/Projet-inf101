@@ -8,14 +8,14 @@ from navigation import *
 from interface import *
 from random_laby import *
 
-choix = input("fichier/random: ")
+choix = input("fichier/aleatoire: ")
 
 if choix == "fichier":
     fn = input("Nom d'un fichier: ")
     laby, entree, sortie = labyFromFile(fn) #Chargement du fichier labyrinthe
-elif choix == "random":
-    entree = [0,0]
-    sortie = [14,19]
+elif choix == "aleatoire":
+    entree = (0,0)
+    sortie = (19,14)
     laby = random_generate(20,15,entree,sortie)
 
 print()

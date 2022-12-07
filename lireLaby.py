@@ -1,22 +1,6 @@
-#!/bin/env python3
-# -*- coding: utf-8 -*-
-
-"""
---------------------------------------------------------------------------------
-lireLaby.py : lecture de labyrinthes / Maze input
-
-SPDX-FileCopyrightText: 2022 UGA            <carole.adam@univ-grenoble-alpes.fr>
-SPDX-License-Identifier: CC-BY-NC-SA-4.0
-
-Voir l'avis de copyright à la fin de ce fichier.
-See copyright notice at the end of this file.
---------------------------------------------------------------------------------
-"""
-
 def labyFromFile(fn) :
     """
     Lecture d'un labyrinthe dans le fichier de nom fn
-    Read a maze from the file named fn.
     """
     f = open(fn)
     laby = []
@@ -34,11 +18,11 @@ def labyFromFile(fn) :
             # entrance / entree
             elif item == "x":
                 labyline.append(0)
-                mazeIn = [indline, inditem]
+                mazeIn = (inditem,indline)
             # exit / sortie
             elif item == "X":
                 labyline.append(0)
-                mazeOut = [indline, inditem]
+                mazeOut = (inditem,indline)
             # discard "\n" char at the end of each line
             inditem += 1
         laby.append(labyline)

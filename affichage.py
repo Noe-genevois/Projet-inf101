@@ -8,13 +8,13 @@ def afficheTextuel(dicoJeu:dict):
     #on parcours chaque case du labyrinthe
     for j in range(hauteur):
         for i in range(largeur):
-            case = laby_liste[j][i]
-            if case == 1: #la case est un mur
+            case = (i,j)
+            if laby_liste[j][i] == 1: #la case est un mur
                 print('#', end='')
             else: #case == 0, la case est un passage
-                if dicoJeu["entrée"] == [j,i]:
+                if dicoJeu["entrée"] == case:
                     print('x', end='')
-                elif dicoJeu["sortie"] == [j,i]:
+                elif dicoJeu["sortie"] == case:
                     print('o', end='')
                 else: # la case est un passage quelconque
                     print(' ',end='')
@@ -61,15 +61,21 @@ def afficheGraphique(dicoJeu:dict,origine:tuple[float,float]=(-400,300),epaisseu
     #itération de chaque cellule du labyrinthe afin de les dessiner
     for j in range(hauteur):
         for i in range(largeur):
+            case = (i,j)
+            
             if laby_liste[j][i] == 1:#si la cellule est un mur
                 carre(turtle,epaisseur_cellule)
-            elif [j,i] == dicoJeu["entrée"]:#entrée
+            
+            elif case == dicoJeu["entrée"]:#entrée
                 carre(turtle,epaisseur_cellule,"green")
-            elif [j,i] == dicoJeu["sortie"]:#sortie
+            
+            elif case == dicoJeu["sortie"]:#sortie
                 carre(turtle,epaisseur_cellule,"red")
-            elif typeCellule((i,j),dicoJeu) == "carrefour":
+            
+            elif typeCellule(case,dicoJeu) == "carrefour":
                 carre(turtle,epaisseur_cellule,"blue")
-            elif typeCellule((i,j),dicoJeu) == "impasse":
+            
+            elif typeCellule(case,dicoJeu) == "impasse":
                 carre(turtle,epaisseur_cellule,"orange")
             #si on a juste un passage on effectue seulement le décalage
             turtle.forward(epaisseur_cellule)#Décalage pour passer à la cellule suivante de la ligne

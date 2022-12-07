@@ -22,31 +22,26 @@ def typeCellule(coord:tuple[int,int],dicoJeu:dict):
     i,j = coord
     if not(0<=i<dicoJeu["largeur"] and 0<=j<dicoJeu["hauteur"]): #Si la case est en dehors du labyrinthe
         return None
+    else:
 
-
-    if dicoJeu["entrée"] == [j,i]:
-        return "entrée"
-    if dicoJeu["sortie"] == [j,i]:
-        return "sortie"
-    
-    cellule = dicoJeu["laby"][j][i]
-    if cellule == 1:
-        return "mur"
-    if cellule == 0:#la cellule est un passage
-        #On veut compter le nombre de voisins(dessus,dessous,droite et gauche) qui sont des passages
-        nbr_passage_voisin = 0
-        #itération de tout les voisins directs
-        for i_voisin,j_voisin in [(i-1,j),(i+1,j),(i,j-1),(i,j+1)]:
-            if 0<=j_voisin<dicoJeu["hauteur"] and 0<=i_voisin<dicoJeu["largeur"]:#si le voisin existe bien dans le labyrinthe
-                if dicoJeu["laby"][j_voisin][i_voisin] == 0:#Si le voisin est un passage
-                    nbr_passage_voisin+=1
-        
-        if nbr_passage_voisin == 1:
-            return "impasse"
-        if nbr_passage_voisin == 2:
-            return "passage"
-        if nbr_passage_voisin > 2:
-            return "carrefour" #si on a ni une impasse ni un passage alors c'est un 
+        if dicoJeu["entrée"] == coord:
+            return "entrée"
+        elif dicoJeu["sortie"] == coord:
+            return "sortie"
+        else:
+            cellule = dicoJeu["laby"][j][i]
+            if cellule == 1:
+                return "mur"
+            elif cellule == 0:#la cellule est un passage
+                #On veut compter le nombre de voisins(dessus,dessous,droite et gauche) qui sont des passages
+                nbr_passage_voisin = len(passages_voisins(coord,dicoJeu["laby"]))
+                
+                if nbr_passage_voisin == 1:
+                    return "impasse"
+                elif nbr_passage_voisin == 2:
+                    return "passage"
+                elif nbr_passage_voisin > 2:
+                    return "carrefour"
         
 def testClic(x:float,y:float,dicoJeu:dict):
     """Donne la position et le type d'une cellule à une position x,y"""
@@ -61,3 +56,13 @@ def testClic(x:float,y:float,dicoJeu:dict):
 def get_pos_cell(dicoJeu:dict):
     """Renvoi la cellule où se trouve la turtle"""
     return pixel2cell(dicoJeu["turtle"].xcor(),dicoJeu["turtle"].ycor(),dicoJeu)
+
+def passages_voisins(case:tuple[int,int], laby:list):
+    """retourne les coordonnées des passages voisins d'une case"""
+    i,j = case
+    voisins = []
+    for i_voisin,j_voisin in [(i-1,j),(i+1,j),(i,j-1),(i,j+1)]:#itération de toutes les cases voisines
+        if 0<=j_voisin<len(laby) and 0<=i_voisin<len(laby[0]):#Si le voisin existe dans le labyritnhe
+            if laby[j_voisin][i_voisin] == 0:#Si c'est un passage
+                voisins.append((i_voisin,j_voisin))
+    return voisins

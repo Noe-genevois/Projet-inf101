@@ -16,14 +16,6 @@ def solvable(laby:list,depart:tuple[int,int],destination:tuple[int,int],cases_ex
         return False
 
 
-def nbr_murs(laby):
-    """Renvoi le nombre de murs d'un labyrinthe"""
-    n = 0
-    for l in laby:
-        n += sum(l)
-    return n
-
-
 def random_generate(largeur:int,hauteur:int,entree:tuple[int,int],sortie:tuple[int,int]):
     """génère un labyrinthe aléatoire"""
     assert(entree[0] < largeur and entree[1] < hauteur), "Entrée en dehors du labyrinthe"

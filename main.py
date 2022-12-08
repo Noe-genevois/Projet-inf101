@@ -20,7 +20,6 @@ if choix == "fichier":
         fn = input("Nom d'un fichier: ")
     laby, entree, sortie = labyFromFile(fn) #Chargement du fichier labyrinthe
 elif choix == "aléatoire":
-    print("rand")
     entree = (0,0)
     sortie = (19,14)
     laby = random_generate(20,15,entree,sortie)

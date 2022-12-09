@@ -1,7 +1,7 @@
 from random import randint,shuffle
 from position import passages_voisins
 
-def solvable(laby:list,depart:tuple[int,int],destination:tuple[int,int],cases_explorées:list=[]):
+def solvable(laby:list,depart:tuple[int,int],destination:tuple[int,int],cases_explorées:list):
     """Retourne si un chemin existe entre le départ et la destination dans le labyrinthe (récursif)"""
     if abs(depart[0]-destination[0])+abs(depart[1]-destination[1]) <= 1:#Si on est sur la destination ou à côté alors c'est qu'on a réussi à relier le départ d'origine à la destination
         return True
@@ -40,12 +40,11 @@ def random_generate(largeur:int,hauteur:int,entree:tuple[int,int],sortie:tuple[i
     shuffle(cases)
     
     for case_rand in cases:    
-
-        i_rand,j_rand =  case_rand    
+        i_rand,j_rand = case_rand    
         laby[j_rand][i_rand] = 1 #On transforme la case en mur
         #On veut vérifier que le nouveau mur ne créé pas de partie innaccessible
         voisins = passages_voisins(case_rand,laby)
-        for i in range(len(voisins)-1):
+        for i in range(len(voisins)-1):#On itère tout les voisins sauf le dernier
             if not solvable(laby, voisins[i], voisins[-1],[]):#si il n'existe pas un chemin entre le voisin itéré et le dernier voisin
                 laby[j_rand][i_rand] = 0#On annule le mur
 

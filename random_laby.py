@@ -1,4 +1,4 @@
-from random import randint
+from random import randint,shuffle
 from position import passages_voisins
 
 def solvable(laby:list,depart:tuple[int,int],destination:tuple[int,int],cases_explorées:list=[]):
@@ -28,26 +28,26 @@ def random_generate(largeur:int,hauteur:int,entree:tuple[int,int],sortie:tuple[i
         for i in range(largeur):
             laby[j].append(0)
     
-    nbr_max_murs = largeur*hauteur//2
-    cases_deja_traitees = [entree,sortie]#On met l'entree et la sortie dans les cases déjà traitées afin que le programme ne tente pas d'en faire des murs
+    #On fait une liste de toute les cases du labyrinthe
+    cases = []
+    for j in range(hauteur):
+        for i in range(largeur):
+            cases.append((i,j))
+    #On enlève l'entrée et la sortie pour être sûr qu'ils restent des passages
+    cases.remove(entree)
+    cases.remove(sortie)
+    #On mélange la liste pour traité les cases dans un ordre aléatoire
+    shuffle(cases)
+    
+    for case_rand in cases:    
 
-    #Dans cette partie on prend des cases au hasard pour les transformer en mur en s'assurant de la viabilité du labyritnhe
-    while len(cases_deja_traitees) < largeur*hauteur: #Tant qu'on a qu'on a encore des cases à traiter     
-
-        #Case aléatoire
-        j_rand = randint(0,hauteur-1)
-        i_rand = randint(0,largeur-1)
-        case_rand = (i_rand,j_rand)
-
-        #Si la case n'a pas déjà été traitée
-        if case_rand not in cases_deja_traitees:        
-            laby[j_rand][i_rand] = 1 #On transforme la case en mur
-            cases_deja_traitees.append(case_rand)#On ajoute la case aux cases traitées
-            #On veut vérifier que le nouveau mur ne créé pas de partie innaccessible
-            voisins = passages_voisins(case_rand,laby)
-            for i in range(len(voisins)-1):
-                if not solvable(laby, voisins[i], voisins[-1],[]):#si il n'existe pas un chemin entre le voisin itéré et le dernier voisin
-                    laby[j_rand][i_rand] = 0#On annule le mur
+        i_rand,j_rand =  case_rand    
+        laby[j_rand][i_rand] = 1 #On transforme la case en mur
+        #On veut vérifier que le nouveau mur ne créé pas de partie innaccessible
+        voisins = passages_voisins(case_rand,laby)
+        for i in range(len(voisins)-1):
+            if not solvable(laby, voisins[i], voisins[-1],[]):#si il n'existe pas un chemin entre le voisin itéré et le dernier voisin
+                laby[j_rand][i_rand] = 0#On annule le mur
 
 
     return laby

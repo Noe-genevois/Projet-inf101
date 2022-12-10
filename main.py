@@ -39,7 +39,7 @@ dicoJeu = {"laby":laby,"entrée":entree,"sortie":sortie, "turtle":turtle, "chemi
 afficheTextuel(dicoJeu)
 
 screen = turtle.Screen()
-screen.setup(1000,800)#Taille de la fenêtre
+screen.setup(1300,900)#Taille de la fenêtre
 
 screen.tracer(0)#On enlève les animations Turtle pour tracer le labyrinthe quasi instantanément
 afficheGraphique(dicoJeu)
